@@ -40,6 +40,7 @@ public class MainActivity extends Activity {
 
         if (id == R.id.action_settings)
         {   IPAddressDialog ipDlg = new IPAddressDialog(this);
+            ipDlg.setIPAddress("127.0.0.1");
             ipDlg.show();
             return true;
         }

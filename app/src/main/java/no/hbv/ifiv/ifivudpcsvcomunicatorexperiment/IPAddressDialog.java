@@ -14,7 +14,23 @@ public class IPAddressDialog extends AlertDialog.Builder
 {
 
     //The IP Address entered by the user
-    public String IPAddress="";
+    private String IPAddress="";
+
+    //return IP Address entered by the user
+    public String getIPAddress()
+    {
+        return IPAddress;
+    }
+
+    //return IP Address entered by the user
+    public void setIPAddress(final String IPAddress)
+    {
+        this.IPAddress=IPAddress;
+        if(input !=null)
+            input.setText(IPAddress);
+    }
+
+    private  EditText input=null;
 
     public IPAddressDialog(final Context context)
     {
@@ -23,7 +39,8 @@ public class IPAddressDialog extends AlertDialog.Builder
         this.setMessage("");
 
         // Set an EditText view to get user input
-        final EditText input = new EditText(context);
+        input = new EditText(context);
+
         this.setView(input);
 
         this.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
