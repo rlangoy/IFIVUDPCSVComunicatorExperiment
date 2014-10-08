@@ -14,18 +14,18 @@ public class IPAddressDialog extends AlertDialog.Builder
 {
 
     //The IP Address entered by the user
-    private String IPAddress="";
+    private String mIPAddress="";
 
     //return IP Address entered by the user
     public String getIPAddress()
     {
-        return IPAddress;
+        return mIPAddress;
     }
 
     //return IP Address entered by the user
     public void setIPAddress(final String IPAddress)
     {
-        this.IPAddress=IPAddress;
+        this.mIPAddress=IPAddress;
         if(input !=null)
             input.setText(IPAddress);
     }
@@ -45,7 +45,7 @@ public class IPAddressDialog extends AlertDialog.Builder
 
         this.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                IPAddress = input.getText().toString(); //Update the IPAddress
+                mIPAddress = input.getText().toString(); //Update the IPAddress
             }
 
         });
