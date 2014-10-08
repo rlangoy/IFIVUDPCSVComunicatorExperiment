@@ -1,8 +1,6 @@
 package no.hbv.ifiv.ifivudpcsvcomunicatorexperiment;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,17 +8,15 @@ import android.widget.TextView;
 
 
 public class MainActivity extends Activity implements IPAddressDialog.NoticeDialogListener{
-
-
     // Callback functions from the IPAddress dialog
     @Override
     public void onDialogPositiveClick(IPAddressDialog dialog) {
         // User touched the dialog's positive button
         strIPAddress=dialog.getIPAddress();
 
+        //From  layout activity_main.xml get the test field and upodate it !
         TextView txtView = (TextView) findViewById(R.id.text_id);
         txtView.setText("IP : " + strIPAddress);
-
     }
 
     @Override
