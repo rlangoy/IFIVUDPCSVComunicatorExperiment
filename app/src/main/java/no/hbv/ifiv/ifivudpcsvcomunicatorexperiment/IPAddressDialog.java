@@ -47,6 +47,7 @@ public class IPAddressDialog extends AlertDialog.Builder
             public void onClick(DialogInterface dialog, int whichButton) {
                 IPAddress = input.getText().toString(); //Update the IPAddress
             }
+
         });
 
         this.setNegativeButton("Cancel",

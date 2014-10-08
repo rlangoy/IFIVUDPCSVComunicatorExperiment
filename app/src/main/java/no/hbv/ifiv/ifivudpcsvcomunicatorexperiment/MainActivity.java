@@ -6,17 +6,19 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
-
-
+import android.widget.TextView;
 
 
 public class MainActivity extends Activity {
+
+    private String strIPAddress="127.0.0.1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        TextView txtView = (TextView) findViewById(R.id.text_id);
+        txtView.setText("IP Address: " + strIPAddress);
     }
 
 
@@ -40,8 +42,11 @@ public class MainActivity extends Activity {
 
         if (id == R.id.action_settings)
         {   IPAddressDialog ipDlg = new IPAddressDialog(this);
-            ipDlg.setIPAddress("127.0.0.1");
+            ipDlg.setIPAddress(strIPAddress);
             ipDlg.show();
+            TextView txtView = (TextView) findViewById(R.id.text_id);
+            txtView.setText("IP: " + ipDlg.getIPAddress());
+            //Needs feedback from the dialog box...
             return true;
         }
 
