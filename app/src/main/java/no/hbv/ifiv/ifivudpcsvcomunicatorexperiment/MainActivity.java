@@ -27,7 +27,7 @@ public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAd
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         TextView txtView = (TextView) findViewById(R.id.text_id);
-        txtView.setText("IP Address: " + mStrIPAddress);
+        txtView.setText("IP Address: " + mStrIPAddress+":"+String.valueOf(mPort));
     }
 
 
