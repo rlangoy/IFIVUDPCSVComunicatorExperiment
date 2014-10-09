@@ -6,7 +6,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 /**
  * Created by rune on 08.10.2014.
@@ -49,49 +52,63 @@ public class IPAddressDialog extends AlertDialog.Builder
     }
 
     //The IP Address entered by the user
-    private String mIPAddress="";
+    private TextView mIPAddress=null;
+    private TextView mIPPort=null;
 
     //return IP Address entered by the user
     public String getIPAddress()
-    {
-        return mIPAddress;
+    {  if(this.mIPAddress!=null)
+            return mIPAddress.getText().toString();
+        return "";
     }
 
     //return IP Address entered by the user
     public void setIPAddress(final String IPAddress)
-    {
-        this.mIPAddress=IPAddress;
-        if(input !=null)
-            input.setText(IPAddress);
+    {   if(this.mIPAddress!=null)
+            this.mIPAddress.setText(IPAddress);
     }
 
-    private  EditText input=null;
+    //return IP Port entered by the user
+    public int getIPPort()
+    {  if(this.mIPPort!=null)
+
+        try
+        {   return Integer.parseInt(this.mIPPort.getText().toString()); }
+        catch(NumberFormatException nfe)
+        {   return -1;}
+
+       return -1;
+    }
+
+    //return IP Address entered by the user
+    public void setIPPort(final int port)
+    {   if(this.mIPPort!=null)
+            this.mIPPort.setText(String.valueOf(port));
+    }
 
     public IPAddressDialog(final Context context)
     {
         super(context);
+
+        LayoutInflater inflater = LayoutInflater.from(this.getContext());
+        View dlgView = inflater.inflate(R.layout.dialog_ipaddress, null);
+        this.setView(dlgView);
+        mIPAddress = (TextView) dlgView.findViewById(R.id.ipAddress);
+        mIPPort= (TextView) dlgView.findViewById(R.id.ipPort);
         this.setTitle("Please Enter Ip address");
-        this.setMessage("");
-
-        // Set an EditText view to get user input
-        input = new EditText(context);
-
-        this.setView(input);
         final IPAddressDialog thisDialog=this;
 
         this.setPositiveButton("Ok", new DialogInterface.OnClickListener()
         {
             public void onClick(DialogInterface dialog, int whichButton)
             {
-                mIPAddress = input.getText().toString();               // Update the IPAddress
-                thisDialog.mListener.onUpdateIPAddress( mIPAddress,5050);   // Notify subscriber new IP Address
+                thisDialog.mListener.onUpdateIPAddress(getIPAddress(), getIPPort());   // Notify subscriber new IP Address
             }
 
         });
 
         this.setNegativeButton("Cancel",
                 new DialogInterface.OnClickListener() {
-
                     @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
                     }
