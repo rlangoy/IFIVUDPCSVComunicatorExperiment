@@ -7,33 +7,26 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 
-public class MainActivity extends Activity implements IPAddressDialog.NoticeDialogListener{
+public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAddressDialogListener{
     // Callback functions from the IPAddress dialog
     @Override
-    public void onDialogPositiveClick(IPAddressDialog dialog) {
-        // User touched the dialog's positive button
-        strIPAddress=dialog.getIPAddress();
-
+    public void onUpdateIPAddress(String strIPAddress,int port)
+    {
+        mStrIPAddress=strIPAddress;
         //From  layout activity_main.xml get the test field and upodate it !
         TextView txtView = (TextView) findViewById(R.id.text_id);
         txtView.setText("IP : " + strIPAddress);
     }
 
-    @Override
-    public void onDialogNegativeClick(IPAddressDialog dialog)
-    {
-        // User touched the dialog's negative button
-    }
 
-
-    private String strIPAddress="127.0.0.1";
+    private String mStrIPAddress="127.0.0.1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         TextView txtView = (TextView) findViewById(R.id.text_id);
-        txtView.setText("IP Address: " + strIPAddress);
+        txtView.setText("IP Address: " + mStrIPAddress);
     }
 
 
@@ -57,7 +50,7 @@ public class MainActivity extends Activity implements IPAddressDialog.NoticeDial
 
         if (id == R.id.action_settings)
         {   IPAddressDialog ipDlg = new IPAddressDialog(this);
-            ipDlg.setIPAddress(strIPAddress);
+            ipDlg.setIPAddress(mStrIPAddress);
             ipDlg.onAttach(this);
             ipDlg.show();
             return true;
