@@ -13,12 +13,13 @@ public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAd
     public void onUpdateIPAddress(String strIPAddress,int port)
     {
         mStrIPAddress=strIPAddress;
+        mPort=port;
         //From  layout activity_main.xml get the test field and upodate it !
         TextView txtView = (TextView) findViewById(R.id.text_id);
-        txtView.setText("IP : " + strIPAddress);
+        txtView.setText("IP : " + strIPAddress+":"+String.valueOf(port));
     }
 
-
+    private int mPort=5050;
     private String mStrIPAddress="127.0.0.1";
 
     @Override
@@ -38,8 +39,6 @@ public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAd
     }
 
 
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -51,6 +50,7 @@ public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAd
         if (id == R.id.action_settings)
         {   IPAddressDialog ipDlg = new IPAddressDialog(this);
             ipDlg.setIPAddress(mStrIPAddress);
+            ipDlg.setIPPort(mPort);
             ipDlg.onAttach(this);
             ipDlg.show();
             return true;
