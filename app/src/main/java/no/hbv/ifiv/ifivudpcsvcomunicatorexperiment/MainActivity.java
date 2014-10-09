@@ -4,7 +4,12 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 
 
 public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAddressDialogListener{
@@ -28,6 +33,24 @@ public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAd
         setContentView(R.layout.activity_main);
         TextView txtView = (TextView) findViewById(R.id.text_id);
         txtView.setText("IP Address: " + mStrIPAddress+":"+String.valueOf(mPort));
+
+
+
+        final Button button = (Button) findViewById(R.id.btnSendMessage);
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                try {
+                    DatagramSocket client_socket = new DatagramSocket(mPort);
+                    InetAddress IPAddress = InetAddress.getByName(mStrIPAddress);
+
+                }catch (Exception e) {}
+
+            }
+
+
+        });
     }
 
 

@@ -14,4 +14,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send CSV String"
+        android:id="@+id/btnSendMessage"
+        android:layout_below="@+id/text_id"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="41dp" />
+
 </RelativeLayout>
