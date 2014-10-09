@@ -40,7 +40,6 @@ public class IPAddressDialog extends AlertDialog.Builder
     // Override the Fragment.onAttach() method to instantiate the NoticeDialogListener
     //@Override
     public void onAttach(Activity activity) {
-       // super.onAttach(activity);
         // Verify that the host activity implements the callback interface
         try {
             // Instantiate the NoticeDialogListener so we can send events to the host
@@ -119,7 +118,6 @@ public class IPAddressDialog extends AlertDialog.Builder
         };
 
         textviewToFormat.setFilters(filters);
-
     }
 
     public IPAddressDialog(final Context context)
@@ -141,7 +139,6 @@ public class IPAddressDialog extends AlertDialog.Builder
             {
                 thisDialog.mListener.onUpdateIPAddress(getIPAddress(), getIPPort());   // Notify subscriber new IP Address
             }
-
         });
 
         this.setNegativeButton("Cancel",
