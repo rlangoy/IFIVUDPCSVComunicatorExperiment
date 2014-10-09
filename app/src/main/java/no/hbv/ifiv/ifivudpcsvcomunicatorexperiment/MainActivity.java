@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
@@ -21,7 +22,7 @@ public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAd
         mPort=port;
         //From  layout activity_main.xml get the test field and upodate it !
         TextView txtView = (TextView) findViewById(R.id.text_id);
-        txtView.setText("IP : " + strIPAddress+":"+String.valueOf(port));
+        txtView.setText("IP : " + mStrIPAddress+":"+String.valueOf(mPort));
     }
 
     private int mPort=5050;
@@ -42,10 +43,20 @@ public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAd
             public void onClick(View v)
             {
                 try {
-                    DatagramSocket client_socket = new DatagramSocket(mPort);
+                    String strCVSMesage="$Info,Item nr 1,Item nr 2\r\n";
+                    DatagramSocket cvsSocket = new DatagramSocket(mPort);
                     InetAddress IPAddress = InetAddress.getByName(mStrIPAddress);
+                    byte[] message = strCVSMesage.getBytes();
 
-                }catch (Exception e) {}
+                    DatagramPacket p = new DatagramPacket(message, message.length,IPAddress,mPort);
+                    cvsSocket.send(p);
+
+
+                }catch (Exception e)
+                {   TextView txtView = (TextView) findViewById(R.id.text_id);
+                    txtView.setText("Error sending UDP data to " + mStrIPAddress+":"+String.valueOf(mPort));
+                }
+
 
             }
 
