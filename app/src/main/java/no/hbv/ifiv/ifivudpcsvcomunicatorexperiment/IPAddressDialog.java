@@ -25,7 +25,6 @@ import android.widget.TextView;
 
 public class IPAddressDialog extends AlertDialog.Builder
 {
-
     /* The activity that creates an instance of this dialog fragment must
      * implement this interface in order to receive event callbacks.
      * Each method passes the DialogFragment in case the host needs to query it. */
@@ -86,6 +85,7 @@ public class IPAddressDialog extends AlertDialog.Builder
             this.mIPPort.setText(String.valueOf(port));
     }
 
+
     public IPAddressDialog(final Context context)
     {
         super(context);
@@ -95,7 +95,7 @@ public class IPAddressDialog extends AlertDialog.Builder
         this.setView(dlgView);
         mIPAddress = (TextView) dlgView.findViewById(R.id.ipAddress);
         mIPPort= (TextView) dlgView.findViewById(R.id.ipPort);
-        this.setTitle("Please Enter Ip address");
+        this.setTitle("IP Configuration");
         final IPAddressDialog thisDialog=this;
 
         this.setPositiveButton("Ok", new DialogInterface.OnClickListener()
