@@ -42,19 +42,29 @@ public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAd
         {
             public void onClick(View v)
             {
+                String strCVSMesage="$Info,Item nr 1,Item nr 2\r\n";
+                DatagramSocket cvsSocket=null;
+
                 try {
-                    String strCVSMesage="$Info,Item nr 1,Item nr 2\r\n";
-                    DatagramSocket cvsSocket = new DatagramSocket(mPort);
+                    cvsSocket = new DatagramSocket(mPort);
                     InetAddress IPAddress = InetAddress.getByName(mStrIPAddress);
-                    byte[] message = strCVSMesage.getBytes();
-
-                    DatagramPacket p = new DatagramPacket(message, message.length,IPAddress,mPort);
+                    DatagramPacket p = new DatagramPacket(strCVSMesage.getBytes(), strCVSMesage.length(),IPAddress,mPort);
                     cvsSocket.send(p);
-
-
                 }catch (Exception e)
                 {   TextView txtView = (TextView) findViewById(R.id.text_id);
-                    txtView.setText("Error sending UDP data to " + mStrIPAddress+":"+String.valueOf(mPort));
+                    String errorMsg;
+                    errorMsg=e.getMessage(); // Try to get the Error message
+                    if (errorMsg==null)
+                        errorMsg= e.toString();  // Return error if mesage is not available
+
+                    txtView.setText("Error sending UDP data to " + mStrIPAddress+":"+String.valueOf(mPort)+"\n"+errorMsg);
+                }
+                finally
+                {
+
+                    if (cvsSocket != null)
+                        cvsSocket.close();
+
                 }
 
 
