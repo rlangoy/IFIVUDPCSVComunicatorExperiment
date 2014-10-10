@@ -6,7 +6,7 @@ The Application sends A UDP packages that contains a CSV(Coma Separeted Values) 
 
 Working functionalities:<br>
     Dialog to Configure IP Address and Portnumber<br>
-    ![alt tag](https://raw.github.com/rlangoy/IFIVUDPCSVComunicatorExperiment/blob/AlphaDev/doc/Images/IPAddressDialog.PNG)
+    ![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/IPAddressDialog.PNG)
     <br>
     ![alt tag](https://raw.github.com/rlangoy/IFIVUDPCSVComunicatorExperiment/blob/AlphaDev/doc/Images/SendButton.PNG)
     Sends a UDP message containing "$Info,Item nr 1,Item nr 2" when the user pushes the button "Send CVS String"<br>
