@@ -8,11 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-
-
 public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAddressDialogListener{
     // Callback functions from the IPAddress dialog
     @Override
@@ -23,6 +18,8 @@ public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAd
         //From  layout activity_main.xml get the test field and upodate it !
         TextView txtView = (TextView) findViewById(R.id.text_id);
         txtView.setText("IP : " + mStrIPAddress+":"+String.valueOf(mPort));
+        mUDPCom.finalize();
+        mUDPCom= new UDPCom(mStrIPAddress,mPort);
     }
 
     private int mPort=5050;
@@ -45,7 +42,7 @@ public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAd
                 if(mUDPCom==null)
                     mUDPCom= new UDPCom(mStrIPAddress,mPort);
 
-                mUDPCom.sendMessage("$Info,Item nr 1,Item nr 2\r\n");
+                mUDPCom.sendMessage("$Info,Item nr 1,Item nr 2\n");
             }
 
         });

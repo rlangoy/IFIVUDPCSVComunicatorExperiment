@@ -1,14 +1,14 @@
 package no.hbv.ifiv.ifivudpcsvcomunicatorexperiment;
 
 import android.util.Log;
-import android.widget.TextView;
-
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 /**
  * Created by rune on 10.10.2014.
+ * Classes used to send/recieve UDP messages
+ * (Helps with the thread stuf... :) )
  */
 
 //Class used by UDPCom to send UDP messages
@@ -80,6 +80,30 @@ public class UDPCom
             Log.d("UDPCom",errorMsg);
         }
     }
+
+    @Override
+    protected void finalize()
+    {
+        try
+        {
+            mSocket.close();
+            super.finalize();
+        }
+        catch (Exception e)
+        {   String errorMsg;
+            errorMsg=e.getMessage(); // Try to get the Error message
+            if (errorMsg==null)
+                errorMsg= e.toString();  // Return error if mesage is not available
+            errorMsg="Error finalize() "  + "\n"+errorMsg;
+            Log.d("UDPCom",errorMsg);
+        }
+        catch(Throwable t) {
+            Log.d("UDPCom","finalize() Throwable");
+        }
+
+
+    }
+
 
 
 }
