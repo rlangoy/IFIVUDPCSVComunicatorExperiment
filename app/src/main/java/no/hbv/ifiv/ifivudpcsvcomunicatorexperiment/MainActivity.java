@@ -4,14 +4,48 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
+public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAddressDialogListener{
+    // Callback functions from the IPAddress dialog
+    @Override
+    public void onUpdateIPAddress(String strIPAddress,int port)
+    {
+        mStrIPAddress=strIPAddress;
+        mPort=port;
+        //From  layout activity_main.xml get the test field and upodate it !
+        TextView txtView = (TextView) findViewById(R.id.text_id);
+        txtView.setText("IP : " + mStrIPAddress+":"+String.valueOf(mPort));
+        mUDPCom.finalize();
+        mUDPCom= new UDPCom(mStrIPAddress,mPort);
+    }
 
-public class MainActivity extends Activity {
+    private int mPort=5050;
+    private String mStrIPAddress="127.0.0.1";
+
+    private UDPCom mUDPCom=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        TextView txtView = (TextView) findViewById(R.id.text_id);
+        txtView.setText("IP Address: " + mStrIPAddress+":"+String.valueOf(mPort));
+
+        final Button button = (Button) findViewById(R.id.btnSendMessage);
+        button.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {   //Init UDP Communication class if not already initiated
+                if(mUDPCom==null)
+                    mUDPCom= new UDPCom(mStrIPAddress,mPort);
+
+                mUDPCom.sendMessage("$Info,Item nr 1,Item nr 2\n");
+            }
+
+        });
     }
 
 
@@ -22,15 +56,25 @@ public class MainActivity extends Activity {
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+
+
+        if (id == R.id.action_settings)
+        {   IPAddressDialog ipDlg = new IPAddressDialog(this);
+            ipDlg.setIPAddress(mStrIPAddress);
+            ipDlg.setIPPort(mPort);
+            ipDlg.onAttach(this);
+            ipDlg.show();
             return true;
         }
+
+
         return super.onOptionsItemSelected(item);
     }
 }

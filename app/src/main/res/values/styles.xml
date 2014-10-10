@@ -5,4 +5,17 @@
         <!-- Customize your theme here. -->
     </style>
 
+
+    <style name="Divider">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1dip</item>
+        <item name="android:layout_margin">6dip</item>
+        <item name="android:background">?android:attr/listDivider</item>
+    </style>
+
+
+    <style name="Header">
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
