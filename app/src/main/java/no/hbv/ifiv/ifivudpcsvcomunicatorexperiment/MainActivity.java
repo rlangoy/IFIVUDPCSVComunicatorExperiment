@@ -28,6 +28,8 @@ public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAd
     private int mPort=5050;
     private String mStrIPAddress="127.0.0.1";
 
+    private UDPCom mUDPCom=null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,41 +37,16 @@ public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAd
         TextView txtView = (TextView) findViewById(R.id.text_id);
         txtView.setText("IP Address: " + mStrIPAddress+":"+String.valueOf(mPort));
 
-
-
         final Button button = (Button) findViewById(R.id.btnSendMessage);
         button.setOnClickListener(new View.OnClickListener()
         {
             public void onClick(View v)
-            {
-                String strCVSMesage="$Info,Item nr 1,Item nr 2\r\n";
-                DatagramSocket cvsSocket=null;
+            {   //Init UDP Communication class if not already initiated
+                if(mUDPCom==null)
+                    mUDPCom= new UDPCom(mStrIPAddress,mPort);
 
-                try {
-                    cvsSocket = new DatagramSocket(mPort);
-                    InetAddress IPAddress = InetAddress.getByName(mStrIPAddress);
-                    DatagramPacket p = new DatagramPacket(strCVSMesage.getBytes(), strCVSMesage.length(),IPAddress,mPort);
-                    cvsSocket.send(p);
-                }catch (Exception e)
-                {   TextView txtView = (TextView) findViewById(R.id.text_id);
-                    String errorMsg;
-                    errorMsg=e.getMessage(); // Try to get the Error message
-                    if (errorMsg==null)
-                        errorMsg= e.toString();  // Return error if mesage is not available
-
-                    txtView.setText("Error sending UDP data to " + mStrIPAddress+":"+String.valueOf(mPort)+"\n"+errorMsg);
-                }
-                finally
-                {
-
-                    if (cvsSocket != null)
-                        cvsSocket.close();
-
-                }
-
-
+                mUDPCom.sendMessage("$Info,Item nr 1,Item nr 2\r\n");
             }
-
 
         });
     }
