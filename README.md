@@ -10,6 +10,7 @@ Working functionalities:<br>
     <br>
     ![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/SendButton.PNG)
     <br>
+    <br>
     Sends a UDP message containing "$Info,Item nr 1,Item nr 2" when the user pushes the button "Send CVS String"<br>
 
 <br>
