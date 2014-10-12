@@ -74,6 +74,13 @@ public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAd
             return true;
         }
 
+        if(id ==R.id.action_showMyIP)
+        {
+            ShowPhoneIPAddressDialog ipDlg = new ShowPhoneIPAddressDialog(this);
+            ipDlg.show();
+            return true;
+        }
+
 
         return super.onOptionsItemSelected(item);
     }

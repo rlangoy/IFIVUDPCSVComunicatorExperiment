@@ -4,5 +4,6 @@
     <string name="app_name">UDP CSV Comunicator"</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="action_showMyIP">Phone IPaddress</string>
 
 </resources>
