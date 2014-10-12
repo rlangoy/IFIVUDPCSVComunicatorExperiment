@@ -9,6 +9,9 @@ Working functionalities:<br>
     Dialog to Configure IP Address and Portnumber<br>
     ![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/IPAddressDialog.PNG)
     <br>
+    Dialog to Show the Wifi IP-Address<br>
+    <br>
+
     ![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/SendButton.PNG)
     <br>
     <br>
