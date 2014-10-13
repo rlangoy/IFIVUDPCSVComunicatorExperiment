@@ -38,6 +38,8 @@ public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAd
     private static final String mPrefIPAddress ="IPAddressKey";
     private static final String mPrefPort      ="IPPortKey";
 
+    private String mStrUDPMessage ="$Info,Item nr 1,Item nr 2\n";
+    private static final String mPrefUDPMessag      ="UDPMessagKey";
 
     private UDPCom mUDPCom=null;
 
@@ -53,6 +55,23 @@ public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAd
 
         if (sharedpreferences.contains(mPrefPort))
             mPort=sharedpreferences.getInt(mPrefPort,0);
+
+        if (sharedpreferences.contains(mPrefUDPMessag))
+            mStrUDPMessage=sharedpreferences.getString(mPrefUDPMessag,"");
+    }
+
+
+    private void updateAndSaveUDPMessageString()
+    {
+        TextView textUDPMessage=(TextView) findViewById(R.id.textUDPMessage);
+        mStrUDPMessage=textUDPMessage.getText().toString();
+
+        SharedPreferences sharedpreferences;
+        sharedpreferences = getSharedPreferences(IP_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString(mPrefUDPMessag,mStrUDPMessage);
+        editor.commit();
+
     }
 
     //saves the global variables to sharedpreferences ("init file")
@@ -79,6 +98,8 @@ public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAd
 
         TextView txtView = (TextView) findViewById(R.id.text_id);
         txtView.setText("IP Address: " + mStrIPAddress+":"+String.valueOf(mPort));
+        TextView textUDPMessage=(TextView) findViewById(R.id.textUDPMessage);
+        textUDPMessage.setText(mStrUDPMessage);
 
         final Button button = (Button) findViewById(R.id.btnSendMessage);
         button.setOnClickListener(new View.OnClickListener()
@@ -88,7 +109,8 @@ public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAd
                 if(mUDPCom==null)
                     mUDPCom= new UDPCom(mStrIPAddress,mPort);
 
-                mUDPCom.sendMessage("$Info,Item nr 1,Item nr 2\n");
+                updateAndSaveUDPMessageString();
+                mUDPCom.sendMessage(mStrUDPMessage);
             }
 
         });
