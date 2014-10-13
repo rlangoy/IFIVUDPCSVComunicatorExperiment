@@ -1,12 +1,15 @@
 package no.hbv.ifiv.ifivudpcsvcomunicatorexperiment;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAddressDialogListener{
     // Callback functions from the IPAddress dialog
@@ -18,19 +21,62 @@ public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAd
         //From  layout activity_main.xml get the test field and upodate it !
         TextView txtView = (TextView) findViewById(R.id.text_id);
         txtView.setText("IP : " + mStrIPAddress+":"+String.valueOf(mPort));
-        mUDPCom.finalize();
-        mUDPCom= new UDPCom(mStrIPAddress,mPort);
+
+        if(mUDPCom!=null)
+        {   mUDPCom.finalize();
+            mUDPCom = new UDPCom(mStrIPAddress, mPort);
+        }
+
+        saveConfiguration(); //Save the new IP/Port
+
+        Toast.makeText(this.getApplicationContext(), "IP Address Updated", Toast.LENGTH_SHORT).show();
     }
 
     private int mPort=5050;
     private String mStrIPAddress="127.0.0.1";
+    private static final String IP_PREFS = "IpPrefs" ;
+    private static final String mPrefIPAddress ="IPAddressKey";
+    private static final String mPrefPort      ="IPPortKey";
+
 
     private UDPCom mUDPCom=null;
+
+
+    //Loads the global variables from sharedpreferences ("init file")
+    private void loadConfiguration()
+    {
+        SharedPreferences sharedpreferences;
+        sharedpreferences = getSharedPreferences(IP_PREFS, Context.MODE_PRIVATE);
+
+        if (sharedpreferences.contains(mPrefIPAddress))
+            mStrIPAddress=sharedpreferences.getString(mPrefIPAddress, "") ;
+
+        if (sharedpreferences.contains(mPrefPort))
+            mPort=sharedpreferences.getInt(mPrefPort,0);
+    }
+
+    //saves the global variables to sharedpreferences ("init file")
+    private void saveConfiguration()
+    {
+        SharedPreferences sharedpreferences;
+        sharedpreferences = getSharedPreferences(IP_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+
+        editor.putString(mPrefIPAddress,mStrIPAddress);
+        editor.putInt(mPrefPort,mPort);
+
+        editor.commit();
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        loadConfiguration(); //Loads default values
+
         TextView txtView = (TextView) findViewById(R.id.text_id);
         txtView.setText("IP Address: " + mStrIPAddress+":"+String.valueOf(mPort));
 
