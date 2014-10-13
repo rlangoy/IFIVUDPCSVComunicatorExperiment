@@ -14,7 +14,7 @@ Working functionalities:<br>
 <br>
 ![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/SendButton.PNG)
 <br>
-Sends a UDP message containing "$Info,Item nr 1,Item nr 2" when the user pushes the button "Send CVS String"<br>
+Sends the UDP message displayed in the EditText field when the user pushes the button "Send CVS String"<br>
 <br>
 Work in the develoment braches/Intentions
 --------------------------
