@@ -1,29 +1,28 @@
 UDP CSV Comunicator Experiment
 ===============================
-Warning this is a project under develoment and it might not work :) !
+##Warning this is a project under develoment and it might not work :) !
 
-The Application sends A UDP packages that contains a CSV(Coma Separeted Values) ASCII string. <br>
-![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/MainActivity.PNG)
+The Application sends A UDP packages that contains a CSV(Coma Separeted Values) ASCII string.   
+###![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/MainActivity.PNG)
 
-Working functionalities:<br>
+#Working functionalities:
 ![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/IPAddressDialog.PNG)
-<br>Dialog to Configure IP Address and Portnumber<br>
-<br>
+###Dialog to Configure IP Address and Portnumber
+  
 ![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/PhoneIpAddress.PNG)
-<br>Dialog to Show the Wifi IP-Address<br>
-<br>
+###Dialog to Show the Wifi IP-Address
+  
 ![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/SendButton.PNG)
-<br>
-Sends the UDP message displayed in the EditText field when the user pushes the button "Send CVS String"<br>
-<br>
+###Sends the UDP message displayed in the EditText field when the user pushes the button "Send CVS String"
+  
 Work in the develoment braches/Intentions
 --------------------------
 The Application is intended to used in the cource EN-SOC3000 (System on chip design) to show how to interact
- width a Android device using:<br>
-     1. The UDP protocol for sending and recieveing ASCII strings<br>
-     2. How to parse(decode) a CVS (Coma separated Value) string.<br>
-     <br>
-     <br>
+ width a Android device using:  
+     1. The UDP protocol for sending and recieveing ASCII strings  
+     2. How to parse(decode) a CVS (Coma separated Value) string.  
+       
+       
 
 Developed By
 ------------
