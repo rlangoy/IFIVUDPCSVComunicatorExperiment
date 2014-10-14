@@ -1,6 +1,8 @@
 package no.hbv.ifiv.ifivudpcsvcomunicatorexperiment;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,7 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAddressDialogListener{
+public class MainActivity extends Activity implements ActionBar.TabListener,IPAddressDialog.NoticeIPAddressDialogListener{
     // Callback functions from the IPAddress dialog
     @Override
     public void onUpdateIPAddress(String strIPAddress,int port)
@@ -114,7 +116,36 @@ public class MainActivity extends Activity implements IPAddressDialog.NoticeIPAd
             }
 
         });
+
+
+        // Set up the action bar to show tabs.
+        final ActionBar actionBar = getActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        // for each of the sections in the app, add a tab to the action bar.
+        actionBar.addTab(actionBar.newTab().setText(R.string.title_section1).setTabListener(this));
+        actionBar.addTab(actionBar.newTab().setText(R.string.title_section2).setTabListener(this));
     }
+
+    @Override
+    public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
+// TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+// TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void onTabUnselected(ActionBar.Tab tab, FragmentTransaction ft) {
+// TODO Auto-generated method stub
+
+    }
+
+
 
 
     @Override
