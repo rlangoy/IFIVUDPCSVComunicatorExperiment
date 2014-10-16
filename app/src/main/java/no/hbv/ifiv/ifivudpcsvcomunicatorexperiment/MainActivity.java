@@ -60,7 +60,7 @@ public class MainActivity extends SherlockFragmentActivity{
     String[] subtitle;
     int[] icon;
     Fragment fragment1 = new Fragment1();
-    Fragment fragment2 = new Fragment2();
+    Fragment fragment2 = new SendCsvStringFragment();
     Fragment fragment3 = new Fragment3();
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
