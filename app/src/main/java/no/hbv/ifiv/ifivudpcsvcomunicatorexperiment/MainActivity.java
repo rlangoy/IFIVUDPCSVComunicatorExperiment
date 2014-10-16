@@ -20,6 +20,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 class Fragment1 extends SherlockFragment {
     @Override
@@ -52,7 +53,7 @@ class Fragment3 extends SherlockFragment {
 }
 
 
-public class MainActivity extends SherlockFragmentActivity {
+public class MainActivity extends SherlockFragmentActivity implements IPAddressDialog.NoticeIPAddressDialogListener {
     // Declare Variables
     DrawerLayout mDrawerLayout;
     ListView mDrawerList;
@@ -66,6 +67,23 @@ public class MainActivity extends SherlockFragmentActivity {
     Fragment fragment3 = new Fragment3();
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
+
+    //IP Dialog callback
+    public void onUpdateIPAddress(String strIPAddress,int port)
+    {
+/*        mStrIPAddress=strIPAddress;
+        mPort=port;
+//From layout activity_main.xml get the test field and upodate it !
+   //     TextView txtView = (TextView) findViewById(R.id.text_id);
+   //     txtView.setText("IP : " + mStrIPAddress+":"+String.valueOf(mPort));
+        if(mUDPCom!=null)
+        { mUDPCom.finalize();
+            mUDPCom = new UDPCom(mStrIPAddress, mPort);
+        }
+        saveConfiguration(); //Save the new IP/Port
+  */
+        Toast.makeText(this.getApplicationContext(), "IP Address Updated", Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
