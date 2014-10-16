@@ -6,4 +6,15 @@
     <string name="action_settings">Settings</string>
     <string name="action_showMyIP">Phone IPaddress</string>
 
+    <string name="title_section1">Send</string>
+    <string name="title_section2">Recieve</string>
+
+    <string name="menu_settings">Settings</string>
+    <string name="Fragment1">This is Fragment 1</string>
+    <string name="Fragment2">This is Fragment 2</string>
+    <string name="Fragment3">This is Fragment 3</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+
 </resources>
