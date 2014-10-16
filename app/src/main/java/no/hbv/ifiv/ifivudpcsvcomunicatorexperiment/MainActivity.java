@@ -159,6 +159,14 @@ public class MainActivity extends SherlockFragmentActivity{
             }
         }
 
+        if(item.getItemId() ==R.id.action_showMyIP)
+        {
+            ShowPhoneIPAddressDialog ipDlg = new ShowPhoneIPAddressDialog(this);
+            ipDlg.show();
+            return true;
+        }
+
+
         return super.onOptionsItemSelected(item);
     }
 
