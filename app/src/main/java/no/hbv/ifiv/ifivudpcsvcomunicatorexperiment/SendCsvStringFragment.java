@@ -1,0 +1,25 @@
+package no.hbv.ifiv.ifivudpcsvcomunicatorexperiment;
+
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.actionbarsherlock.app.SherlockFragment;
+
+/**
+ * Created by rune on 16.10.2014.
+ */
+
+public class SendCsvStringFragment extends SherlockFragment {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View rootView = inflater.inflate(R.layout.fragment_send_csv_string, container, false);
+        return rootView;
+    }
+
+
+
+}
