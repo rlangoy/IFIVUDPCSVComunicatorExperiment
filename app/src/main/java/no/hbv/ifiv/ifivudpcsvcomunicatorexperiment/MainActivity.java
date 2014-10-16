@@ -52,7 +52,7 @@ class Fragment3 extends SherlockFragment {
 }
 
 
-public class MainActivity extends SherlockFragmentActivity{
+public class MainActivity extends SherlockFragmentActivity {
     // Declare Variables
     DrawerLayout mDrawerLayout;
     ListView mDrawerList;
@@ -150,7 +150,9 @@ public class MainActivity extends SherlockFragmentActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (item.getItemId() == android.R.id.home) {
+        int id=item.getItemId();
+
+        if ( id == android.R.id.home) {
 
             if (mDrawerLayout.isDrawerOpen(mDrawerList)) {
                 mDrawerLayout.closeDrawer(mDrawerList);
@@ -159,12 +161,23 @@ public class MainActivity extends SherlockFragmentActivity{
             }
         }
 
-        if(item.getItemId() ==R.id.action_showMyIP)
+        if(id == R.id.action_showMyIP)
         {
             ShowPhoneIPAddressDialog ipDlg = new ShowPhoneIPAddressDialog(this);
             ipDlg.show();
             return true;
         }
+
+
+        if (id == R.id.action_settings)
+        { IPAddressDialog ipDlg = new IPAddressDialog(this);
+            ipDlg.setIPAddress("127.0.0.1");
+            ipDlg.setIPPort(9050);
+            //ipDlg.onAttach(this.getActivity()); <-Needs to be implemented...
+            ipDlg.show();
+            return true;
+        }
+
 
 
         return super.onOptionsItemSelected(item);
