@@ -5,6 +5,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.Fragment;
 import android.content.res.Configuration;
@@ -68,20 +70,52 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
 
+
+    private int mPort=5050;
+    private String mStrIPAddress="127.0.0.1";
+    private static final String IP_PREFS = "IpPrefs" ;
+    private static final String mPrefIPAddress ="IPAddressKey";
+    private static final String mPrefPort ="IPPortKey";
+    private String mStrUDPMessage ="$Info,Item nr 1,Item nr 2\n";
+    private static final String mPrefUDPMessag ="UDPMessagKey";
+    private UDPCom mUDPCom=null;
+
+    //Loads the global variables from sharedpreferences ("init file")
+    private void loadConfiguration()
+    {
+        SharedPreferences sharedpreferences;
+        sharedpreferences = getSharedPreferences(IP_PREFS, Context.MODE_PRIVATE);
+        if (sharedpreferences.contains(mPrefIPAddress))
+            mStrIPAddress=sharedpreferences.getString(mPrefIPAddress, "") ;
+        if (sharedpreferences.contains(mPrefPort))
+            mPort=sharedpreferences.getInt(mPrefPort,0);
+        if (sharedpreferences.contains(mPrefUDPMessag))
+            mStrUDPMessage=sharedpreferences.getString(mPrefUDPMessag,"");
+    }
+
+    //saves the global variables to sharedpreferences ("init file")
+    private void saveConfiguration()
+    {
+        SharedPreferences sharedpreferences;
+        sharedpreferences =  getSharedPreferences(IP_PREFS, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString(mPrefIPAddress,mStrIPAddress);
+        editor.putInt(mPrefPort,mPort);
+        editor.commit();
+    }
+
+
     //IP Dialog callback
     public void onUpdateIPAddress(String strIPAddress,int port)
     {
-/*        mStrIPAddress=strIPAddress;
+       mStrIPAddress=strIPAddress;
         mPort=port;
-//From layout activity_main.xml get the test field and upodate it !
-   //     TextView txtView = (TextView) findViewById(R.id.text_id);
-   //     txtView.setText("IP : " + mStrIPAddress+":"+String.valueOf(mPort));
+
         if(mUDPCom!=null)
         { mUDPCom.finalize();
             mUDPCom = new UDPCom(mStrIPAddress, mPort);
         }
         saveConfiguration(); //Save the new IP/Port
-  */
         Toast.makeText(this.getApplicationContext(), "IP Address Updated", Toast.LENGTH_SHORT).show();
     }
 
@@ -91,6 +125,7 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
         // Get the view from drawer_main.xml
         setContentView(R.layout.drawer_main);
 
+        loadConfiguration();
         // Get the Title
         mTitle = mDrawerTitle = getTitle();
 
@@ -191,7 +226,7 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
         { IPAddressDialog ipDlg = new IPAddressDialog(this);
             ipDlg.setIPAddress("127.0.0.1");
             ipDlg.setIPPort(9050);
-            //ipDlg.onAttach(this.getActivity()); <-Needs to be implemented...
+            ipDlg.onAttach(this);
             ipDlg.show();
             return true;
         }
