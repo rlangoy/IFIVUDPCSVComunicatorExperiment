@@ -23,6 +23,16 @@ The Application is intended to used in the cource EN-SOC3000 (System on chip des
      2. How to parse(decode) a CVS (Coma separated Value) string.  
        
        
+Compilation / Build Instructions
+---------------------------------
+
+* Download Android Studio.
+* Download ActionBarSherlock  from http://actionbarsherlock.com/download.html
+* Extract the downloaded files.
+  Fom the Menu in  Android Studio click "File" | "Import Module" and specify the location of the folder "actionbarsherlock"
+   (From the extracted files ie:C:\Android\ActionSherloc\JakeWharton-ActionBarSherlock-5a15d92\actionbarsherlock)
+
+
 
 Developed By
 ------------
