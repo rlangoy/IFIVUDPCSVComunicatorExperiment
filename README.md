@@ -1,38 +1,29 @@
 UDP CSV Comunicator Experiment
 ===============================
-###Warning this is a project under develoment and it might not work :) !
+Warning this is a project under develoment and it might not work :) !
 
-The Application sends A UDP packages that contains a CSV(Coma Separeted Values) ASCII string.   
-###![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/MainActivity.PNG)
+The Application sends A UDP packages that contains a CSV(Coma Separeted Values) ASCII string. <br>
+![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/MainActivity.PNG)
 
-#Working functionalities:
+Working functionalities:<br>
 ![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/IPAddressDialog.PNG)
-###Dialog to Configure IP Address and Portnumber
-  
+<br>Dialog to Configure IP Address and Portnumber<br>
+<br>
 ![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/PhoneIpAddress.PNG)
-###Dialog to Show the Wifi IP-Address
-  
+<br>Dialog to Show the Wifi IP-Address<br>
+<br>
 ![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/SendButton.PNG)
-###Sends the UDP message displayed in the EditText field when the user pushes the button "Send CVS String"
-  
+<br>
+Sends a UDP message containing "$Info,Item nr 1,Item nr 2" when the user pushes the button "Send CVS String"<br>
+<br>
 Work in the develoment braches/Intentions
 --------------------------
 The Application is intended to used in the cource EN-SOC3000 (System on chip design) to show how to interact
- width a Android device using:  
-     1. The UDP protocol for sending and recieveing ASCII strings  
-     2. How to parse(decode) a CVS (Coma separated Value) string.  
-       
-       
-Compilation / Build Instructions
----------------------------------
-
-* Download Android Studio.
-* Download ActionBarSherlock  from http://actionbarsherlock.com/download.html
-* Extract the downloaded files.
-  Fom the Menu in  Android Studio click "File" | "Import Module" and specify the location of the folder "actionbarsherlock"
-   (From the extracted files ie:C:\Android\ActionSherloc\JakeWharton-ActionBarSherlock-5a15d92\actionbarsherlock)
-
-
+ width a Android device using:<br>
+     1. The UDP protocol for sending and recieveing ASCII strings<br>
+     2. How to parse(decode) a CVS (Coma separated Value) string.<br>
+     <br>
+     <br>
 
 Developed By
 ------------
