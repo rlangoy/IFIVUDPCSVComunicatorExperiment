@@ -1,6 +1,8 @@
 package no.hbv.ifiv.ifivudpcsvcomunicatorexperiment;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
 import android.support.v4.app.FragmentTransaction;
@@ -136,6 +138,14 @@ public class MainActivity extends SherlockFragmentActivity{
             selectItem(0);
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
