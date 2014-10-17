@@ -260,7 +260,6 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
             return true;
         }
 
-
         if (id == R.id.action_settings)
         {
             IPAddressDialog ipDlg = new IPAddressDialog(this, mIpInfo);
@@ -268,8 +267,6 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
             ipDlg.show();
             return true;
         }
-
-
 
         return super.onOptionsItemSelected(item);
     }
