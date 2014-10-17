@@ -33,17 +33,6 @@ class Fragment1 extends SherlockFragment {
     }
 }
 
- class Fragment2 extends SherlockFragment {
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment1, container, false);
-
-        ((TextView) rootView.findViewById(R.id.label_Fragment1)).setText("Fragment2");
-
-        return rootView;
-    }
-}
 class Fragment3 extends SherlockFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
