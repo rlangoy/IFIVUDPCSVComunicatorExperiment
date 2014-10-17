@@ -176,10 +176,7 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
         mIpInfo=new IpInfo(getSharedPreferences(IpInfo.IP_PREFS, Context.MODE_PRIVATE));
         loadConfiguration();
 
-        if(mUDPCom!=null)
-        { mUDPCom.finalize();
-            mUDPCom = new UDPCom(mIpInfo.getIPAddress(), mIpInfo.getIPPort());
-        }
+        mUDPCom = new UDPCom(mIpInfo.getIPAddress(), mIpInfo.getIPPort());
 
         sendCsvStringFragment = new SendCsvStringFragment(mUDPCom,mIpInfo);
         // Get the Title
