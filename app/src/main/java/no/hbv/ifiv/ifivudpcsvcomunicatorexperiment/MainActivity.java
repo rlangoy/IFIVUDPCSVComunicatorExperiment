@@ -120,7 +120,7 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
     String[] subtitle;
     int[] icon;
     Fragment fragment1 = new Fragment1();
-    SendCsvStringFragment fragment2 =null;
+    SendCsvStringFragment sendCsvStringFragment =null;
     Fragment fragment3 = new Fragment3();
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
@@ -161,7 +161,7 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
             mUDPCom = new UDPCom(ipInfo.getIPAddress(), ipInfo.getIPPort());
         }
 
-        fragment2.UpdateView();
+        sendCsvStringFragment.UpdateView();
 
         Toast.makeText(this.getApplicationContext(), "IP Address Updated", Toast.LENGTH_SHORT).show();
     }
@@ -181,7 +181,7 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
             mUDPCom = new UDPCom(mIpInfo.getIPAddress(), mIpInfo.getIPPort());
         }
 
-        fragment2 = new SendCsvStringFragment(mUDPCom,mIpInfo);
+        sendCsvStringFragment = new SendCsvStringFragment(mUDPCom,mIpInfo);
         // Get the Title
         mTitle = mDrawerTitle = getTitle();
 
@@ -310,7 +310,7 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
                 ft.replace(R.id.content_frame, fragment1);
                 break;
             case 1:
-                ft.replace(R.id.content_frame, fragment2);
+                ft.replace(R.id.content_frame, sendCsvStringFragment);
                 break;
             case 2:
                 ft.replace(R.id.content_frame, fragment3);
