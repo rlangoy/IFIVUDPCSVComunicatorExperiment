@@ -120,11 +120,10 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
     String[] subtitle;
     int[] icon;
     Fragment fragment1 = new Fragment1();
-    Fragment fragment2 =null;
+    SendCsvStringFragment fragment2 =null;
     Fragment fragment3 = new Fragment3();
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-
 
     private static final String IP_PREFS = "IpPrefs" ;
     private String mStrUDPMessage ="$Info,Item nr 1,Item nr 2\n";
@@ -132,7 +131,6 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
     private UDPCom mUDPCom=null;
 
     private IpInfo mIpInfo=null; //IP Address/Portunber
-
 
     //Loads the global variables from sharedpreferences ("init file")
     private void loadConfiguration()
@@ -163,6 +161,8 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
             mUDPCom = new UDPCom(ipInfo.getIPAddress(), ipInfo.getIPPort());
         }
 
+        fragment2.UpdateView();
+
         Toast.makeText(this.getApplicationContext(), "IP Address Updated", Toast.LENGTH_SHORT).show();
     }
 
@@ -175,6 +175,12 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
         //Load IPAddress And Port number from SharedPreferences
         mIpInfo=new IpInfo(getSharedPreferences(IpInfo.IP_PREFS, Context.MODE_PRIVATE));
         loadConfiguration();
+
+        if(mUDPCom!=null)
+        { mUDPCom.finalize();
+            mUDPCom = new UDPCom(mIpInfo.getIPAddress(), mIpInfo.getIPPort());
+        }
+
         fragment2 = new SendCsvStringFragment(mUDPCom,mIpInfo);
         // Get the Title
         mTitle = mDrawerTitle = getTitle();

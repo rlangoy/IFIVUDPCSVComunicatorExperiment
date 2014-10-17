@@ -65,6 +65,15 @@ public class SendCsvStringFragment extends SherlockFragment {
         mIpInfo=ipInfo;
     }
 
+    //Update the text fields
+    public void UpdateView()
+    {
+        TextView txtView = (TextView) mRootView.findViewById(R.id.text_id);
+        txtView.setText("IP Address: " + mIpInfo.getIPAddress()+":"+String.valueOf(mIpInfo.getIPPort()));
+        TextView textUDPMessage=(TextView) mRootView.findViewById(R.id.textUDPMessage);
+        textUDPMessage.setText(mStrUDPMessage);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -73,10 +82,8 @@ public class SendCsvStringFragment extends SherlockFragment {
         mRootView=rootView;
 
         loadConfiguration(); //Loads default values
-        TextView txtView = (TextView) mRootView.findViewById(R.id.text_id);
-        txtView.setText("IP Address: " + mIpInfo.getIPAddress()+":"+String.valueOf(mIpInfo.getIPPort()));
-        TextView textUDPMessage=(TextView) mRootView.findViewById(R.id.textUDPMessage);
-        textUDPMessage.setText(mStrUDPMessage);
+        UpdateView();        //Update the textviews
+
         final Button button = (Button) mRootView.findViewById(R.id.btnSendMessage);
 
         button.setOnClickListener(new View.OnClickListener()
