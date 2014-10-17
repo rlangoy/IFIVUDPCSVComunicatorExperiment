@@ -16,7 +16,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.support.v4.view.GravityCompat;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import android.view.LayoutInflater;
@@ -150,7 +149,7 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
           mUDPCom = new UDPCom(ipInfo.getIPAddress(), ipInfo.getIPPort());
         }
         sendCsvStringFragment.setUdpCom(mUDPCom);   //Update Udp communication class
-        sendCsvStringFragment.UpdateView(); // Update textfields
+        sendCsvStringFragment.UpdateView();         // Update textfields
 
         Toast.makeText(this.getApplicationContext(), "IP Address Updated", Toast.LENGTH_SHORT).show();
     }
@@ -172,11 +171,11 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
         mTitle = mDrawerTitle = getTitle();
 
         // Generate title
-        title = new String[] { "Title Fragment 1", "Title Fragment 2",
+        title = new String[] { "Title Fragment 1", "Send UDP",
                 "Title Fragment 3" };
 
         // Generate subtitle
-        subtitle = new String[] { "Subtitle Fragment 1", "Subtitle Fragment 2",
+        subtitle = new String[] { "Subtitle Fragment 1", "Send UDP message string",
                 "Subtitle Fragment 3" };
 
         // Generate icon
@@ -210,8 +209,9 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
 
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the sliding drawer and the action bar app icon
+        //R.drawable.ic_drawer, //nav menu toggle icon
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-                R.drawable.ic_action_udp_wifi_light , R.string.drawer_open,
+                R.drawable.ic_navigation_drawer , R.string.drawer_open,
                 R.string.drawer_close) {
 
             public void onDrawerClosed(View view) {
