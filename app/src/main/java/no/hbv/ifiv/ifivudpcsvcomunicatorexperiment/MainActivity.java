@@ -179,8 +179,8 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
                 "Subtitle Fragment 3" };
 
         // Generate icon
-        icon = new int[] { R.drawable.ic_action_udp_wifi_custom, R.drawable.ic_action_udp_wifi_dark,
-                R.drawable.ic_action_udp_wifi_light };
+        icon = new int[] {0,  R.drawable.ic_action_udp_wifi_custom,
+                0 };
 
         // Locate DrawerLayout in drawer_main.xml
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
