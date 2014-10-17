@@ -65,6 +65,13 @@ public class SendCsvStringFragment extends SherlockFragment {
         mIpInfo=ipInfo;
     }
 
+    public void setUdpCom(UDPCom udpCom)
+    {
+        if(mUDPCom!=null)
+            mUDPCom.finalize();
+        mUDPCom=udpCom;
+    }
+
     //Update the text fields
     public void UpdateView()
     {

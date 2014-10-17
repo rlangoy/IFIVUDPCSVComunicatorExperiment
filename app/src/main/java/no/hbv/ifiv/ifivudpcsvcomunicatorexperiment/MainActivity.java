@@ -158,10 +158,10 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
 
         if(mUDPCom!=null)
         { mUDPCom.finalize();
-            mUDPCom = new UDPCom(ipInfo.getIPAddress(), ipInfo.getIPPort());
+          mUDPCom = new UDPCom(ipInfo.getIPAddress(), ipInfo.getIPPort());
         }
-
-        sendCsvStringFragment.UpdateView();
+        sendCsvStringFragment.setUdpCom(mUDPCom);   //Update Udp communication class
+        sendCsvStringFragment.UpdateView(); // Update textfields
 
         Toast.makeText(this.getApplicationContext(), "IP Address Updated", Toast.LENGTH_SHORT).show();
     }
