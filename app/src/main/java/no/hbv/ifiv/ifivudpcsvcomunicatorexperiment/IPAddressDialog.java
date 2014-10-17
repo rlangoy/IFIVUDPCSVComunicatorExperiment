@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -31,7 +32,7 @@ public class IPAddressDialog extends AlertDialog.Builder
      * implement this interface in order to receive event callbacks.
      * Each method passes the DialogFragment in case the host needs to query it. */
     public interface NoticeIPAddressDialogListener {
-        public void onUpdateIPAddress(String strIPAddress,int port);
+        public void onUpdateIPAddress(IpInfo ipInfo);
     }
 
     // Use this instance of the interface to deliver action events
@@ -54,38 +55,23 @@ public class IPAddressDialog extends AlertDialog.Builder
     //The IP Address entered by the user
     private TextView mIPAddress=null;
     private TextView mIPPort=null;
-
-    //return IP Address entered by the user
-    public String getIPAddress()
-    {  if(this.mIPAddress!=null)
-            return mIPAddress.getText().toString();
-        return "";
+    private void loadConfiguration()
+    {
+           if(mIpInfo!=null)
+           {
+               mIPAddress.setText(mIpInfo.getIPAddress());
+               mIPPort.setText(String.valueOf(mIpInfo.getIPPort()));
+           }
     }
 
-    //return IP Address entered by the user
-    public void setIPAddress(final String IPAddress)
-    {   if(this.mIPAddress!=null)
-            this.mIPAddress.setText(IPAddress);
+    private void updateConfiguration()
+    {
+        try   {  mIpInfo.setIPPort(Integer.parseInt(this.mIPPort.getText().toString()));  }
+        catch
+              (NumberFormatException nfe) { Log.d("IPAddressDialog","NumberFormatException getting Port Number"); }
+
+        mIpInfo.setIPAddress(mIPAddress.getText().toString());
     }
-
-    //return IP Port entered by the user
-    public int getIPPort()
-    {  if(this.mIPPort!=null)
-
-        try
-        {   return Integer.parseInt(this.mIPPort.getText().toString()); }
-        catch(NumberFormatException nfe)
-        {   return -1;}
-
-       return -1;
-    }
-
-    //return IP Address entered by the user
-    public void setIPPort(final int port)
-    {   if(this.mIPPort!=null)
-            this.mIPPort.setText(String.valueOf(port));
-    }
-
 
     // Cofigures IP Filtter
     private void ipTextFilter(TextView textviewToFormat)
@@ -120,7 +106,8 @@ public class IPAddressDialog extends AlertDialog.Builder
         textviewToFormat.setFilters(filters);
     }
 
-    public IPAddressDialog(final Context context)
+    private IpInfo mIpInfo;
+    public IPAddressDialog(final Context context,IpInfo ipInfo)
     {
         super(context);
 
@@ -130,6 +117,10 @@ public class IPAddressDialog extends AlertDialog.Builder
         mIPAddress = (TextView) dlgView.findViewById(R.id.ipAddress);
         ipTextFilter(mIPAddress);
         mIPPort= (TextView) dlgView.findViewById(R.id.ipPort);
+
+        mIpInfo=ipInfo;
+        loadConfiguration(); //Update the textViews
+
         this.setTitle("IP Configuration");
         final IPAddressDialog thisDialog=this;
 
@@ -137,7 +128,8 @@ public class IPAddressDialog extends AlertDialog.Builder
         {
             public void onClick(DialogInterface dialog, int whichButton)
             {
-                thisDialog.mListener.onUpdateIPAddress(getIPAddress(), getIPPort());   // Notify subscriber new IP Address
+                updateConfiguration();// Save IPAddress/Portnumber to mIpInfo
+                thisDialog.mListener.onUpdateIPAddress(mIpInfo);   // Notify subscriber new IP Address
             }
         });
 
