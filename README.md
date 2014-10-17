@@ -31,6 +31,7 @@ Compilation / Build Instructions
 3rd Party Librarys used
 ---------------------------------
 ActionBarSherlock  from http://actionbarsherlock.com/index.html
+AdilSoomro/Android-Speech-Bubble - https://github.com/AdilSoomro/Android-Speech-Bubble
 
 
 Developed By
