@@ -56,7 +56,6 @@ public class SendCsvStringFragment extends SherlockFragment {
         editor.commit();
     }
 
-    private UDPCom mUdpCom=null;
     private IpInfo mIpInfo=null;
 
     public SendCsvStringFragment(UDPCom udpCom,IpInfo ipInfo)

@@ -23,14 +23,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-class Fragment1 extends SherlockFragment {
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment1, container, false);
-        return rootView;
-    }
-}
 
 class Fragment3 extends SherlockFragment {
     @Override
@@ -107,8 +99,8 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
     String[] title;
     String[] subtitle;
     int[] icon;
-    Fragment fragment1 = new Fragment1();
-    SendCsvStringFragment sendCsvStringFragment =null;
+    UDPChatFragment udpChatFragment = null;              //Fragment nr 2 in List
+    SendCsvStringFragment sendCsvStringFragment =null;  //Fragemnt nr 1 in list
     Fragment fragment3 = new Fragment3();
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
@@ -148,8 +140,10 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
         { mUDPCom.finalize();
           mUDPCom = new UDPCom(ipInfo.getIPAddress(), ipInfo.getIPPort());
         }
-        sendCsvStringFragment.setUdpCom(mUDPCom);   //Update Udp communication class
+        sendCsvStringFragment.setUdpCom(mUDPCom);   // Update Udp communication class
         sendCsvStringFragment.UpdateView();         // Update textfields
+
+        udpChatFragment.setUdpCom(mUDPCom);         // Update Communication class
 
         Toast.makeText(this.getApplicationContext(), "IP Address Updated", Toast.LENGTH_SHORT).show();
     }
@@ -167,14 +161,15 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
         mUDPCom = new UDPCom(mIpInfo.getIPAddress(), mIpInfo.getIPPort());
 
         sendCsvStringFragment = new SendCsvStringFragment(mUDPCom,mIpInfo);
+        udpChatFragment = new UDPChatFragment(mUDPCom);
         // Get the Title
         mTitle = mDrawerTitle = getTitle();
 
         // Generate titles
-        title = new String[] {  "Send UDP","Title Fragment 1", "Title Fragment 3" };
+        title = new String[] {  "Send UDP","Rx/Tx UDP", "Title Fragment 3" };
 
         // Generate subtitles
-        subtitle = new String[] {"Send UDP message string","Subtitle Fragment 1","Subtitle Fragment 3" };
+        subtitle = new String[] {"Send UDP message string","Send and recieve UDP","Subtitle Fragment 3" };
 
         // Generate icons
         icon = new int[] {R.drawable.ic_action_udp_wifi_custom,  0,  0 };
@@ -290,7 +285,7 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
                 ft.replace(R.id.content_frame, sendCsvStringFragment);
                 break;
             case 1:
-                ft.replace(R.id.content_frame, fragment1);
+                ft.replace(R.id.content_frame, udpChatFragment);
                 break;
             case 2:
                 ft.replace(R.id.content_frame, fragment3);
