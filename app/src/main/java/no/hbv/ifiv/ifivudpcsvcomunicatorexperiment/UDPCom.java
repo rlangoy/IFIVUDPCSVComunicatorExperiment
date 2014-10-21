@@ -35,10 +35,65 @@ class UDPSendMsg implements Runnable
                 errorMsg = e.toString();  // Return error if mesage is not available
 
             errorMsg="Sending UDP Message " + "\n" + errorMsg;
-            Log.d("UDPCom",errorMsg);
+            Log.d("UDPSendMsg",errorMsg);
         }
     }
 }
+
+//Class used by UDPCom to send UDP messages
+class UDPRecieveMsg implements Runnable
+{
+    private DatagramSocket  mSocket=null;
+    private DatagramPacket  mPacket=null;
+    byte[]                  mReceiveBuff;
+
+    public UDPRecieveMsg(DatagramSocket  socket )
+    {
+        try {
+            mSocket = socket;
+            mReceiveBuff= new byte[2000];
+            mPacket =  new DatagramPacket(mReceiveBuff, mReceiveBuff.length);
+        }
+        catch (Exception e) {
+            String errorMsg;
+            errorMsg = e.getMessage(); // Try to get the Error message
+            if (errorMsg == null)
+                errorMsg = e.toString();  // Return error if mesage is not available
+
+            errorMsg = "Settingp UDP Message " + "\n" + errorMsg;
+            Log.d("UDPRecieveMsg", errorMsg);
+        }
+
+    }
+
+    public void run()
+    {
+        while(true)
+        {
+            try
+            {   mSocket.receive(mPacket);
+                String strRecievedMessage= new String(mPacket.getData(),(int)0,mPacket.getLength());
+
+                //Need to implement callback functionalities...
+                Log.d("UDPRecieveMsg",strRecievedMessage );
+            }
+            catch (Exception e) {
+                String errorMsg;
+                errorMsg = e.getMessage(); // Try to get the Error message
+                if (errorMsg == null)
+                    errorMsg = e.toString();  // Return error if mesage is not available
+
+                errorMsg = "Recieving UDP Message " + "\n" + errorMsg;
+                Log.d("UDPRecieveMsg", errorMsg);
+                break; // stop the recieving loop
+            }
+
+        }
+    }
+}
+
+
+
 
 //Class Hanles the threads inorder to send UDP messages
 public class UDPCom
@@ -46,6 +101,7 @@ public class UDPCom
     DatagramSocket  mSocket=null;
     InetAddress     mIPAddress=null;
     int             mPort=0;
+
 
     public void sendMessage(String strUDPMessage)
     {
@@ -70,6 +126,7 @@ public class UDPCom
         try
         {   mSocket = new DatagramSocket(mPort);
             mIPAddress = InetAddress.getByName(strIPAddress);
+            new Thread(new UDPRecieveMsg(mSocket)).start();
         }
         catch (Exception e)
         {   String errorMsg;
