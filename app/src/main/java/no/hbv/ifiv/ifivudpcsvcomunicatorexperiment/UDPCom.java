@@ -1,5 +1,6 @@
 package no.hbv.ifiv.ifivudpcsvcomunicatorexperiment;
 
+import android.app.Activity;
 import android.util.Log;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -10,6 +11,9 @@ import java.net.InetAddress;
  * Classes used to send/recieve UDP messages
  * (Helps with the thread stuf... :) )
  */
+
+
+
 
 //Class used by UDPCom to send UDP messages
 class UDPSendMsg implements Runnable
@@ -47,6 +51,26 @@ class UDPRecieveMsg implements Runnable
     private DatagramPacket  mPacket=null;
     byte[]                  mReceiveBuff;
 
+    public static final Integer DEBUG_NO_NETWORK = 1;
+
+    // Use this instance of the interface to deliver action events
+    UDPCom.NoticeUDPComListener mListener=null;
+
+    //@Override
+    public void onAttach(Activity activity) {
+        // Verify that the host activity implements the callback interface
+        try {
+            // Instantiate the NoticeUDPComListener so we can send events to the host
+            mListener = (UDPCom.NoticeUDPComListener) activity;
+        } catch (ClassCastException e) {
+            // The activity doesn't implement the interface, throw exception
+            throw new ClassCastException(activity.toString()
+                    + " must implement NoticeUDPComListener");
+        }
+    }
+
+
+
     public UDPRecieveMsg(DatagramSocket  socket )
     {
         try {
@@ -68,11 +92,21 @@ class UDPRecieveMsg implements Runnable
 
     public void run()
     {
+        int count=0;
         while(true)
         {
             try
-            {   mSocket.receive(mPacket);
-                String strRecievedMessage= new String(mPacket.getData(),(int)0,mPacket.getLength());
+            {
+                String strRecievedMessage;
+
+               if(DEBUG_NO_NETWORK==1) {
+                   Thread.sleep(1000);
+                   strRecievedMessage= String.format("Recieved UDP DEBUG_NO_NETWORK=1 #%4d\n",count++);
+               }
+               else {
+                   mSocket.receive(mPacket);
+                   strRecievedMessage = new String(mPacket.getData(), (int) 0, mPacket.getLength());
+               }
 
                 //Need to implement callback functionalities...
                 Log.d("UDPRecieveMsg",strRecievedMessage );
@@ -98,9 +132,36 @@ class UDPRecieveMsg implements Runnable
 //Class Hanles the threads inorder to send UDP messages
 public class UDPCom
 {
-    DatagramSocket  mSocket=null;
-    InetAddress     mIPAddress=null;
-    int             mPort=0;
+    DatagramSocket      mSocket=null;
+    InetAddress         mIPAddress=null;
+    int                 mPort=0;
+    UDPRecieveMsg      mUDPRecieveMsg=null;
+ /*
+ *  implement this interface in order to receive event callbacks.
+ **/
+    public interface NoticeUDPComListener {
+        public void onRecievedUdp(String strMessage);
+    }
+
+
+    // Use this instance of the interface to deliver action events
+    NoticeUDPComListener mListener=null;
+
+    //@Override
+    public void onAttach(Activity activity) {
+        // Verify that the host activity implements the callback interface
+        try {
+            // Instantiate the NoticeUDPComListener so we can send events to the host
+            mListener = (NoticeUDPComListener) activity;
+            if(mUDPRecieveMsg!=null)
+            {   mUDPRecieveMsg.onAttach(activity);
+            }
+        } catch (ClassCastException e) {
+            // The activity doesn't implement the interface, throw exception
+            throw new ClassCastException(activity.toString()
+                    + " must implement NoticeUDPComListener");
+        }
+    }
 
 
     public void sendMessage(String strUDPMessage)
@@ -126,7 +187,8 @@ public class UDPCom
         try
         {   mSocket = new DatagramSocket(mPort);
             mIPAddress = InetAddress.getByName(strIPAddress);
-            new Thread(new UDPRecieveMsg(mSocket)).start();
+            mUDPRecieveMsg=new UDPRecieveMsg(mSocket);
+            new Thread(mUDPRecieveMsg).start();
         }
         catch (Exception e)
         {   String errorMsg;
