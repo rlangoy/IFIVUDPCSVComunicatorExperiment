@@ -175,7 +175,7 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
         subtitle = new String[] {"Send UDP message string","Send and recieve UDP","Subtitle Fragment 3" };
 
         // Generate icons
-        icon = new int[] {R.drawable.ic_action_udp_wifi_custom,  0,  0 };
+        icon = new int[] {R.drawable.ic_action_udp_sendbw,  R.drawable.ic_chat_bw,  0 };
 
         // Locate DrawerLayout in drawer_main.xml
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);

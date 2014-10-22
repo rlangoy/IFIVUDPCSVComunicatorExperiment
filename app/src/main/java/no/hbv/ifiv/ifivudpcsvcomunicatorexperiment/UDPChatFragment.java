@@ -203,9 +203,11 @@ public class UDPChatFragment extends SherlockFragment
                              Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_udp_chat, container, false);
 
+        TextView tex = (TextView) mRootView.findViewById(android.R.id.empty);
+        tex.setVisibility(View.GONE);
 
-        //init Array for Messages
-        //messages = new ArrayList<Message>();
+        messages.add(new Message("$STATUS,REQUEST",false));
+        messages.add(new Message("$STATUS,OK ",true));
 
         //Attatch new listView
         mListView = (ListView) mRootView.findViewById(android.R.id.list);

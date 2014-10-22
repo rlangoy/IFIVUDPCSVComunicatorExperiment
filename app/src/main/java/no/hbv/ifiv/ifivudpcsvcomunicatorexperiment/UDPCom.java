@@ -12,9 +12,6 @@ import java.net.InetAddress;
  * (Helps with the thread stuf... :) )
  */
 
-
-
-
 //Class used by UDPCom to send UDP messages
 class UDPSendMsg implements Runnable
 {
@@ -68,8 +65,6 @@ class UDPRecieveMsg implements Runnable
                     + " must implement NoticeUDPComListener");
         }
     }
-
-
 
     public UDPRecieveMsg(DatagramSocket  socket )
     {
@@ -127,8 +122,6 @@ class UDPRecieveMsg implements Runnable
         }
     }
 }
-
-
 
 
 //Class Hanles the threads inorder to send UDP messages
