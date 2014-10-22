@@ -51,7 +51,7 @@ class UDPRecieveMsg implements Runnable
     private DatagramPacket  mPacket=null;
     byte[]                  mReceiveBuff;
 
-    public static final Integer DEBUG_NO_NETWORK = 1;
+    public static final Integer DEBUG_NO_NETWORK = 0;
 
     // Use this instance of the interface to deliver action events
     UDPCom.NoticeUDPComListener mListener=null;
@@ -97,19 +97,21 @@ class UDPRecieveMsg implements Runnable
         {
             try
             {
-                String strRecievedMessage;
+                String strReceivedMessage;
 
                if(DEBUG_NO_NETWORK==1) {
                    Thread.sleep(1000);
-                   strRecievedMessage= String.format("Recieved UDP DEBUG_NO_NETWORK=1 #%4d\n",count++);
+                   strReceivedMessage= String.format("Recieved UDP DEBUG_NO_NETWORK=1 #%4d\n",count++);
                }
-               else {
+               else
+               {
                    mSocket.receive(mPacket);
-                   strRecievedMessage = new String(mPacket.getData(), (int) 0, mPacket.getLength());
+                   strReceivedMessage = new String(mPacket.getData(), (int) 0, mPacket.getLength());
                }
 
-                //Need to implement callback functionalities...
-                Log.d("UDPRecieveMsg",strRecievedMessage );
+                if(mListener!=null)
+                    mListener.onReceivedUdp(strReceivedMessage);// triggen new onRecieved event on listeners
+
             }
             catch (Exception e) {
                 String errorMsg;
@@ -140,7 +142,7 @@ public class UDPCom
  *  implement this interface in order to receive event callbacks.
  **/
     public interface NoticeUDPComListener {
-        public void onRecievedUdp(String strMessage);
+        public void onReceivedUdp(String strMessage);
     }
 
 
@@ -188,6 +190,7 @@ public class UDPCom
         {   mSocket = new DatagramSocket(mPort);
             mIPAddress = InetAddress.getByName(strIPAddress);
             mUDPRecieveMsg=new UDPRecieveMsg(mSocket);
+            //mUDPRecieveMsg.onAttach();
             new Thread(mUDPRecieveMsg).start();
         }
         catch (Exception e)

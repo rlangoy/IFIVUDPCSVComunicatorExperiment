@@ -13,6 +13,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -90,7 +91,7 @@ class IpInfo
 }
 
 
-public class MainActivity extends SherlockFragmentActivity implements IPAddressDialog.NoticeIPAddressDialogListener {
+public class MainActivity extends SherlockFragmentActivity implements IPAddressDialog.NoticeIPAddressDialogListener,UDPCom.NoticeUDPComListener {
     // Declare Variables
     DrawerLayout mDrawerLayout;
     ListView mDrawerList;
@@ -139,6 +140,7 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
         if(mUDPCom!=null)
         { mUDPCom.finalize();
           mUDPCom = new UDPCom(ipInfo.getIPAddress(), ipInfo.getIPPort());
+          mUDPCom.onAttach(this);
         }
         sendCsvStringFragment.setUdpCom(mUDPCom);   // Update Udp communication class
         sendCsvStringFragment.UpdateView();         // Update textfields
@@ -159,6 +161,7 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
         loadConfiguration();
 
         mUDPCom = new UDPCom(mIpInfo.getIPAddress(), mIpInfo.getIPPort());
+        mUDPCom.onAttach(this);
 
         sendCsvStringFragment = new SendCsvStringFragment(mUDPCom,mIpInfo);
         udpChatFragment = new UDPChatFragment(mUDPCom);
@@ -264,6 +267,24 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onReceivedUdp(String strMessage)
+    {
+        //Show new message in the UDP Chat Fragment
+        final String message=strMessage;
+        if(udpChatFragment!=null)
+        {
+            //udpChatFragment.addNewMessage updates the GUI and needs to run on the GUI thread
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    udpChatFragment.addNewMessage(new Message(message, false));
+                }
+            });
+
+        }
     }
 
     // ListView click listener in the navigation drawer
