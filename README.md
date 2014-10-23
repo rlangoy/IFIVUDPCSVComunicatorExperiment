@@ -2,7 +2,9 @@ UDP CSV Comunicator Experiment
 ===============================
 ###Warning this is a project under develoment and it might not work :) !
 
-The Application sends A UDP packages that contains a CSV(Coma Separeted Values) ASCII string.   
+The Application has different tools for working width UDP Packaged
+
+The Main Menu show the different utils in a ActionBar as show below
 ###![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/MainActivity.PNG)
 
 #Working functionalities:
@@ -12,9 +14,15 @@ The Application sends A UDP packages that contains a CSV(Coma Separeted Values) 
 ![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/PhoneIpAddress.PNG)
 ###Dialog to Show the Wifi IP-Address
   
-![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/SendButton.PNG)
+![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/SendCSVString.PNG)
 ###Sends the UDP message displayed in the EditText field when the user pushes the button "Send CVS String"
-  
+
+
+![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/RxTxUDP.PNG)
+###UDP Chat Program. Sends and Recieves UDP Messages
+
+
+
 Work in the develoment braches/Intentions
 --------------------------
 The Application is intended to used in the cource EN-SOC3000 (System on chip design) to show how to interact
