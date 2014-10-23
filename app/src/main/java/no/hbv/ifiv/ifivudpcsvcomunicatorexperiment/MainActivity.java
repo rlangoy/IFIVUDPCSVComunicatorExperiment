@@ -101,9 +101,11 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
     String[] title;
     String[] subtitle;
     int[] icon;
-    UDPChatFragment udpChatFragment = null;              //Fragment nr 2 in List
-    SendCsvStringFragment sendCsvStringFragment =null;  //Fragemnt nr 1 in list
-    Fragment fragment3 = new Fragment3();
+    //ActionBar Fragments
+    UDPChatFragment udpChatFragment = null;
+    SendCsvStringFragment sendCsvStringFragment =null;
+    UDPGraphingFragment udpGraphingFragment = null;
+
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
 
@@ -153,7 +155,7 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
 
     private String[] getSetSubtitles()
     {
-        return new String[] { "Send UDP String" ,"UDP Rx/Tx" };
+        return new String[] { "Send UDP String" ,"UDP Rx/Tx","$GRAPH,values" };
     }
 
     @Override
@@ -171,6 +173,10 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
 
         sendCsvStringFragment = new SendCsvStringFragment(mUDPCom,mIpInfo);
         udpChatFragment = new UDPChatFragment(mUDPCom);
+
+        udpGraphingFragment = new UDPGraphingFragment();
+
+
         // Get the Title
         mTitle = mDrawerTitle = getTitle();
 
@@ -178,10 +184,10 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
         title=getSetSubtitles();
 
         // Generate subtitles
-        subtitle = new String[] {"Send UDP message string","Send and recieve UDP","Subtitle Fragment 3" };
+        subtitle = new String[] {"Send UDP message string","Send and recieve UDP","Grap UDP Data" };
 
         // Generate icons
-        icon = new int[] {R.drawable.ic_action_udp_sendbw,  R.drawable.ic_chat_bw,  0 };
+        icon = new int[] {R.drawable.ic_action_udp_sendbw,  R.drawable.ic_chat_bw,  R.drawable.ic_action_graph };
 
         // Locate DrawerLayout in drawer_main.xml
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -315,7 +321,7 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
                 ft.replace(R.id.content_frame, udpChatFragment);
                 break;
             case 2:
-                ft.replace(R.id.content_frame, fragment3);
+                ft.replace(R.id.content_frame, udpGraphingFragment);
                 break;
         }
         ft.commit();
