@@ -161,6 +161,7 @@ public class UDPChatFragment extends SherlockFragment
 {
     private UDPCom mUDPCom=null;
     private View mRootView;
+    private boolean mNoMessagesRecieved=true;
 
     ArrayList<Message> messages= new ArrayList<Message>();;
     AwesomeAdapter adapter=null;
@@ -182,14 +183,17 @@ public class UDPChatFragment extends SherlockFragment
 
     void addNewMessage(Message m)
     {
-        if(adapter==null)
+        if(adapter==null) {
             messages.add(m);
+            mNoMessagesRecieved=false;
+        }
         else
         {
-           if (messages.isEmpty()) {
+           if (mNoMessagesRecieved) {
                //Hide no text recieved
                TextView tex = (TextView) mRootView.findViewById(android.R.id.empty);
                tex.setVisibility(View.GONE);
+               mNoMessagesRecieved=false;
            }
 
            messages.add(m);
@@ -203,11 +207,12 @@ public class UDPChatFragment extends SherlockFragment
                              Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_udp_chat, container, false);
 
-        TextView tex = (TextView) mRootView.findViewById(android.R.id.empty);
-        tex.setVisibility(View.GONE);
+        if (mNoMessagesRecieved==false) {
+            //Hide no text recieved
+            TextView tex = (TextView) mRootView.findViewById(android.R.id.empty);
+            tex.setVisibility(View.GONE);
+        }
 
-        messages.add(new Message("$STATUS,REQUEST",false));
-        messages.add(new Message("$STATUS,OK ",true));
 
         //Attatch new listView
         mListView = (ListView) mRootView.findViewById(android.R.id.list);
