@@ -1,29 +1,46 @@
 UDP CSV Comunicator Experiment
 ===============================
-Warning this is a project under develoment and it might not work :) !
+###Warning this is a project under develoment and it might not work :) !
 
-The Application sends A UDP packages that contains a CSV(Coma Separeted Values) ASCII string. <br>
-![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/MainActivity.PNG)
+The Application has different tools for working width UDP Packaged
 
-Working functionalities:<br>
+The Main Menu show the different utils in a ActionBar as show below
+###![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/MainActivity.PNG)
+
+#Working functionalities:
 ![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/IPAddressDialog.PNG)
-<br>Dialog to Configure IP Address and Portnumber<br>
-<br>
+###Dialog to Configure IP Address and Portnumber
+  
 ![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/PhoneIpAddress.PNG)
-<br>Dialog to Show the Wifi IP-Address<br>
-<br>
-![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/SendButton.PNG)
-<br>
-Sends a UDP message containing "$Info,Item nr 1,Item nr 2" when the user pushes the button "Send CVS String"<br>
-<br>
+###Dialog to Show the Wifi IP-Address
+  
+![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/SendCSVString.PNG)
+###Sends the UDP message displayed in the EditText field when the user pushes the button "Send CVS String"
+
+
+![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/RxTxUDP.PNG)
+###UDP Chat Program. Sends and Recieves UDP Messages
+
+
+
 Work in the develoment braches/Intentions
 --------------------------
 The Application is intended to used in the cource EN-SOC3000 (System on chip design) to show how to interact
- width a Android device using:<br>
-     1. The UDP protocol for sending and recieveing ASCII strings<br>
-     2. How to parse(decode) a CVS (Coma separated Value) string.<br>
-     <br>
-     <br>
+ width a Android device using:  
+     1. The UDP protocol for sending and recieveing ASCII strings  
+     2. How to parse(decode) a CVS (Coma separated Value) string.  
+       
+       
+Compilation / Build Instructions
+---------------------------------
+
+* Download Android Studio.
+
+3rd Party Librarys used
+---------------------------------
+ActionBarSherlock  from http://actionbarsherlock.com/index.html
+AdilSoomro/Android-Speech-Bubble - https://github.com/AdilSoomro/Android-Speech-Bubble
+
 
 Developed By
 ------------

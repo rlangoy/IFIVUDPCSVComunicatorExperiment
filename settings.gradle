@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 include ':app'
+=======
+include ':actionbarsherlock',':app'
+>>>>>>> remotes/origin/AlphaDev
