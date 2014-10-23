@@ -147,7 +147,12 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
 
         udpChatFragment.setUdpCom(mUDPCom);         // Update Communication class
 
-        Toast.makeText(this.getApplicationContext(), "IP Address Updated", Toast.LENGTH_SHORT).show();
+    }
+
+
+    private String[] getSetSubtitles()
+    {
+        return new String[] { "Send UDP String" ,"UDP Rx/Tx" };
     }
 
     @Override
@@ -169,7 +174,9 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
         mTitle = mDrawerTitle = getTitle();
 
         // Generate titles
-        title = new String[] {  "Send UDP","Rx/Tx UDP", "Title Fragment 3" };
+//        String titleRxTxUDP= String.format("Rx/Tx UDP  %s:%d",mIpInfo.getIPAddress(),(mIpInfo.getIPPort()));
+//        title = new String[] { titleRxTxUDP , "Title Fragment 3" };
+        title=getSetSubtitles();
 
         // Generate subtitles
         subtitle = new String[] {"Send UDP message string","Send and recieve UDP","Subtitle Fragment 3" };
