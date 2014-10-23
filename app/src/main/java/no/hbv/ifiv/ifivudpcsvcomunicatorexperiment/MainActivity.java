@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
@@ -174,8 +175,6 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
         mTitle = mDrawerTitle = getTitle();
 
         // Generate titles
-//        String titleRxTxUDP= String.format("Rx/Tx UDP  %s:%d",mIpInfo.getIPAddress(),(mIpInfo.getIPPort()));
-//        title = new String[] { titleRxTxUDP , "Title Fragment 3" };
         title=getSetSubtitles();
 
         // Generate subtitles
@@ -192,8 +191,8 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
 
         // Set a custom shadow that overlays the main content when the drawer
         // opens
-        //mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
-        //        GravityCompat.START);
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
+                GravityCompat.START);
 
         // Pass string arrays to MenuListAdapter
         mMenuAdapter = new MenuListAdapter(MainActivity.this, title, subtitle,
