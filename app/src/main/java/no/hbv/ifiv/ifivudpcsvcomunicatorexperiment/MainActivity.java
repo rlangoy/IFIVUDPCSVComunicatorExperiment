@@ -26,17 +26,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-class Fragment3 extends SherlockFragment {
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment1, container, false);
-        ((TextView) rootView.findViewById(R.id.label_Fragment1)).setText("Fragment3");
-        return rootView;
-    }
-}
-
-
 class IpInfo
 {
     private SharedPreferences mSharedPreferences=null;
