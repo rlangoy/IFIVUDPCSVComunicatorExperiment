@@ -8,22 +8,16 @@ import com.actionbarsherlock.view.MenuItem;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.Fragment;
+
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
-import com.actionbarsherlock.app.SherlockFragment;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 
 class IpInfo
@@ -294,8 +288,21 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
                     udpChatFragment.addNewMessage(new Message(message, false));
                 }
             });
-
         }
+
+        if(udpGraphingFragment!=null)
+        {
+            //udpChatFragment.addNewMessage updates the GUI and needs to run on the GUI thread
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    udpGraphingFragment.onNewMessage(message);
+                }
+            });
+        }
+
+
+
     }
 
     // ListView click listener in the navigation drawer
