@@ -46,9 +46,42 @@ public class UDPGraphingFragment extends SherlockFragment {
         mChart.setDescription("$GARPH,values");
         mChart.setNoDataTextDescription("No $GARPH,values received");
 
-
+        //Add test data
+        makeLineDataTest();
 
         return rootView;
+    }
+
+
+    // Insert testdata to mChart
+    private void makeLineDataTest()
+    {
+        int count=360;
+
+        ArrayList<String> xVals = new ArrayList<String>();
+        ArrayList<Entry> yVals = new ArrayList<Entry>();
+        for (int i = 0; i < count; i++) {
+            xVals.add((i) + "");
+
+            float val = (float) Math.sin(2*Math.PI*i/count);
+            yVals.add(new Entry(val, i));
+
+        }
+
+        // create a dataset and give it a type
+        LineDataSet set1 = new LineDataSet(yVals, "DataSet 1");
+
+        ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
+        dataSets.add(set1); // add the datasets
+
+        // create a data object with the datasets
+        LineData data = new LineData(xVals, dataSets);
+
+        // set data
+        mChart.setData(data);
+
+        // redraw
+        mChart.invalidate();
     }
 
 
@@ -60,32 +93,6 @@ public class UDPGraphingFragment extends SherlockFragment {
         {
             Log.d("UDPGraphingFragment", "equalsIgnoreCase(\"$graph\")==true");
 
-            int count=360;
-
-            ArrayList<String> xVals = new ArrayList<String>();
-            ArrayList<Entry> yVals = new ArrayList<Entry>();
-            for (int i = 0; i < count; i++) {
-                xVals.add((i) + "");
-
-                float val = (float) Math.sin(2*Math.PI*i/count);
-                yVals.add(new Entry(val, i));
-
-            }
-
-            // create a dataset and give it a type
-            LineDataSet set1 = new LineDataSet(yVals, "DataSet 1");
-
-            ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
-            dataSets.add(set1); // add the datasets
-
-            // create a data object with the datasets
-            LineData data = new LineData(xVals, dataSets);
-
-            // set data
-            mChart.setData(data);
-
-            // redraw
-            mChart.invalidate();
         }
 
     }
