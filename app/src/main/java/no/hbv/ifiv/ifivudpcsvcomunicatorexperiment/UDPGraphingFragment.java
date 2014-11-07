@@ -24,16 +24,14 @@ import java.util.ArrayList;
  */
 public class UDPGraphingFragment extends SherlockFragment {
 
-    private LineChart mChart;
-    private Handler mHandler;
+    private LineChart mChart=null;
+    private LineData  mData=null;
+    private View      mRootView=null;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState)
+
+    private void initChart()
     {
-        View rootView = inflater.inflate(R.layout.fragment_udp_graphing, container, false);
-
-        mChart = (LineChart) rootView.findViewById(R.id.chart1);
+        mChart = (LineChart) mRootView.findViewById(R.id.chart1);
 
         // if enabled, the chart will always start at zero on the y-axis
         mChart.setStartAtZero(false);
@@ -41,26 +39,28 @@ public class UDPGraphingFragment extends SherlockFragment {
         // disable the drawing of values into the chart
         mChart.setDrawYValues(false);
         mChart.setDrawBorder(true);
-        mChart.setBorderPositions(new BarLineChartBase.BorderPosition[] {
+        mChart.setBorderPositions(new BarLineChartBase.BorderPosition[]{
                 BarLineChartBase.BorderPosition.BOTTOM
         });
 
-       // no description text
+        // no description text
         mChart.setDescription("$GARPH,values");
         mChart.setNoDataTextDescription("No $GARPH,values received");
 
+    }
 
-        mHandler = new Handler(Looper.getMainLooper());
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState)
+    {
+        mRootView= inflater.inflate(R.layout.fragment_udp_graphing, container, false);
 
-        //Call new thread width chart data
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                makeLineDataTest();    //Add test data
-            }
-        });
+        initChart();    // Initialize the chart component
 
-        return rootView;
+        if(mData!=null)            // onCreateView is called more than once
+           mChart.setData(mData);  // set data
+
+        return mRootView;
     }
 
 
@@ -86,13 +86,15 @@ public class UDPGraphingFragment extends SherlockFragment {
         dataSets.add(set1); // add the datasets
 
         // create a data object with the datasets
-        LineData data = new LineData(xVals, dataSets);
+        mData = new LineData(xVals, dataSets);
 
-        // set data
-        mChart.setData(data);
+        if(mChart!=null) {
+            // set data
+            mChart.setData(mData);
 
-        // redraw
-        mChart.invalidate();
+            // redraw
+            mChart.invalidate();
+        }
     }
 
 
@@ -103,9 +105,8 @@ public class UDPGraphingFragment extends SherlockFragment {
         if (csvMessage[0].equalsIgnoreCase("$graph")==true)
         {
             Log.d("UDPGraphingFragment", "equalsIgnoreCase(\"$graph\")==true");
-
+            makeLineDataTest();  // <-  Adds mData to the chart mChart.setData(mData);
         }
-
     }
 
 }
