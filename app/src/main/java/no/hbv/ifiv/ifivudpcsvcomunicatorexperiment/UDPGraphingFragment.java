@@ -1,6 +1,8 @@
 package no.hbv.ifiv.ifivudpcsvcomunicatorexperiment;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 public class UDPGraphingFragment extends SherlockFragment {
 
     private LineChart mChart;
+    private Handler mHandler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,8 +49,16 @@ public class UDPGraphingFragment extends SherlockFragment {
         mChart.setDescription("$GARPH,values");
         mChart.setNoDataTextDescription("No $GARPH,values received");
 
-        //Add test data
-        makeLineDataTest();
+
+        mHandler = new Handler(Looper.getMainLooper());
+
+        //Call new thread width chart data
+        mHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                makeLineDataTest();    //Add test data
+            }
+        });
 
         return rootView;
     }
