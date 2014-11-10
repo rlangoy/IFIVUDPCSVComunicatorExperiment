@@ -1,8 +1,6 @@
 package no.hbv.ifiv.ifivudpcsvcomunicatorexperiment;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,21 +29,30 @@ public class UDPGraphingFragment extends SherlockFragment {
 
     private void initChart()
     {
-        mChart = (LineChart) mRootView.findViewById(R.id.chart1);
 
-        // if enabled, the chart will always start at zero on the y-axis
-        mChart.setStartAtZero(false);
+        if(mChart==null) {
+            mChart = (LineChart) mRootView.findViewById(R.id.chart1);
 
-        // disable the drawing of values into the chart
-        mChart.setDrawYValues(false);
-        mChart.setDrawBorder(true);
-        mChart.setBorderPositions(new BarLineChartBase.BorderPosition[]{
-                BarLineChartBase.BorderPosition.BOTTOM
-        });
+            // if enabled, the chart will always start at zero on the y-axis
+            mChart.setStartAtZero(false);
 
-        // no description text
-        mChart.setDescription("$GARPH,values");
-        mChart.setNoDataTextDescription("No $GARPH,values received");
+            // disable the drawing of values into the chart
+            mChart.setDrawYValues(false);
+            mChart.setDrawBorder(true);
+            mChart.setBorderPositions(new BarLineChartBase.BorderPosition[]{
+                    BarLineChartBase.BorderPosition.BOTTOM
+            });
+
+            // no description text
+            mChart.setDescription("$GARPH,values");
+            mChart.setNoDataTextDescription("No $GARPH,values received");
+            mChart.setScaleEnabled(true);
+        }
+        else
+            mChart = (LineChart) mRootView.findViewById(R.id.chart1);
+
+        mChart.setStartAtZero(false);   //Auto scale the graph
+
 
     }
 
