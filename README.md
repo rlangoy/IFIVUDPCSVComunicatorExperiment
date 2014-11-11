@@ -1,6 +1,6 @@
-UDP CSV Comunicator Experiment
+﻿UDP CSV Comunicator Experiment
 ===============================
-###Warning this is a project under develoment and it might not work :) !
+###Warning this is a project under develoment and it might work :) !
 
 The Application has different tools for working width UDP Packaged
 
