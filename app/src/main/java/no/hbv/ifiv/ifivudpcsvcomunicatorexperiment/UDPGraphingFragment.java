@@ -2,7 +2,6 @@ package no.hbv.ifiv.ifivudpcsvcomunicatorexperiment;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
@@ -27,7 +25,9 @@ public class UDPGraphingFragment extends SherlockFragment {
 
     private LineChart mChart=null;
     private View      mRootView=null;
-    Button btDebug;
+    private LineData  mLineData=null;
+
+    Button            btDebug;
 
 
     @Override
@@ -37,29 +37,31 @@ public class UDPGraphingFragment extends SherlockFragment {
 
     private void initChart()
     {
+        mChart = (LineChart) mRootView.findViewById(R.id.chart1);
 
-        if(mChart==null) {
-            mChart = (LineChart) mRootView.findViewById(R.id.chart1);
+        //Set graph data if it's available
+        if(mLineData!=null)
+            mChart.setData(mLineData);
 
-            // if enabled, the chart will always start at zero on the y-axis
-            mChart.setStartAtZero(false);
+        // if enabled, the chart will always start at zero on the y-axis
+        mChart.setStartAtZero(false);
 
-            // disable the drawing of values into the chart
-            mChart.setDrawYValues(false);
-            mChart.setDrawBorder(true);
-            mChart.setBorderPositions(new BarLineChartBase.BorderPosition[]{
-                    BarLineChartBase.BorderPosition.BOTTOM
-            });
+        // disable the drawing of values into the chart
+        mChart.setDrawYValues(false);
+        mChart.setDrawBorder(true);
+        mChart.setBorderPositions(new BarLineChartBase.BorderPosition[]{
+                BarLineChartBase.BorderPosition.BOTTOM
+        });
 
-            // no description text
-            mChart.setDescription("$GARPH,values");
-            mChart.setNoDataTextDescription("No $GARPH,values received");
-            mChart.setScaleEnabled(true);
-        }
-        else
-            mChart = (LineChart) mRootView.findViewById(R.id.chart1);
+        // no description text
+        mChart.setDescription("$GARPH,values");
+        mChart.setNoDataTextDescription("No $GARPH,values received");
+        mChart.setScaleEnabled(true);
 
         mChart.setStartAtZero(false);   //Auto scale the graph
+
+        // redraw the chart
+        mChart.invalidate();
     }
 
     //Setup data set colours and style
@@ -76,34 +78,37 @@ public class UDPGraphingFragment extends SherlockFragment {
 
     private void addEntry(float fValue) {
 
-        LineData data = mChart.getDataOriginal();
         LineDataSet dataSetFirst=null;
 
         //Add X-Axis value
-        if(data==null)
+        if(mLineData==null)
         {
             String[] xVals= new String[1];
             xVals[0]="0";
-            data = new LineData(xVals);
+            mLineData = new LineData(xVals);
             dataSetFirst = createSet();
 
-            data.addDataSet(dataSetFirst);
-            mChart.setData(data);
+            mLineData.addDataSet(dataSetFirst);
+            if(mChart!=null)
+                mChart.setData(mLineData);
         }
         else
         {
-            data.getXVals().add(data.getXValCount(), "" + data.getXValCount()); //Add X-Axis Values
-            dataSetFirst = data.getDataSetByIndex(0);                                    //Get first data set
+            mLineData.getXVals().add(mLineData.getXValCount(), "" + mLineData.getXValCount()); //Add X-Axis Values
         }
 
+        dataSetFirst = mLineData.getDataSetByIndex(0);                                        //Get first data set
+
         //Add y - Value
-        data.addEntry(new Entry((float) fValue, dataSetFirst.getEntryCount()), 0);
+        mLineData.addEntry(new Entry((float) fValue, dataSetFirst.getEntryCount()), 0);
 
-        // let the chart know it's data has changed
-        mChart.notifyDataSetChanged();
+        if(mChart!=null) {
+            // let the chart know it's data has changed
+            mChart.notifyDataSetChanged();
 
-        // redraw the chart
-        mChart.invalidate();
+            // redraw the chart
+            mChart.invalidate();
+        }
     }
 
 
@@ -118,9 +123,9 @@ public class UDPGraphingFragment extends SherlockFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
-        mRootView= inflater.inflate(R.layout.fragment_udp_graphing, container, false);
+        mRootView = inflater.inflate(R.layout.fragment_udp_graphing, container, false);
 
-        btDebug=(Button) mRootView.findViewById(R.id.button1);
+        btDebug = (Button) mRootView.findViewById(R.id.button1);
         btDebug.setOnClickListener(onDebugClick);
 
         initChart();    // Initialize the chart component
@@ -134,8 +139,7 @@ public class UDPGraphingFragment extends SherlockFragment {
 
         if (csvMessage[0].equalsIgnoreCase("$graph")==true)
         {
-            if(mChart!=null)
-                addEntry((float) (Math.random() * 50) + 50f);
+            addEntry((float) (Math.random() * 50) + 50f);
         }
     }
 
