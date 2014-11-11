@@ -26,23 +26,14 @@ import java.util.ArrayList;
 public class UDPGraphingFragment extends SherlockFragment {
 
     private LineChart mChart=null;
-    private LineData  mData=null;
     private View      mRootView=null;
     Button btDebug;
 
 
-    int[] mColors = ColorTemplate.VORDIPLOM_COLORS;
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
-        Log.i("TAG", "* created");
-
     }
-
 
     private void initChart()
     {
@@ -69,10 +60,9 @@ public class UDPGraphingFragment extends SherlockFragment {
             mChart = (LineChart) mRootView.findViewById(R.id.chart1);
 
         mChart.setStartAtZero(false);   //Auto scale the graph
-
-
     }
 
+    //Setup data set colours and style
     private LineDataSet createSet()
     {
         LineDataSet set = new LineDataSet(null, "DataSet 1");
@@ -84,61 +74,43 @@ public class UDPGraphingFragment extends SherlockFragment {
         return set;
     }
 
-    private void addEntry() {
-        LineData data = mChart.getDataOriginal();
-        if(data != null) {
-            LineDataSet set = data.getDataSetByIndex(0);
-// set.addEntry(...);
-            if (set == null) {
-                set = createSet();
-                data.addDataSet(set);
-            }
-            data.addEntry(new Entry((float) (Math.random() * 50) + 50f, set.getEntryCount()), 0);
-// let the chart know it's data has changed
-            mChart.notifyDataSetChanged();
-// redraw the chart
-            mChart.invalidate();
-        }
-    }
+    private void addEntry(float fValue) {
 
-    private void addEmptyData() {
-// create 30 x-vals
-        String[] xVals = new String[30];
-        for (int i = 0; i < 30; i++)
-            xVals[i] = "" + i;
-// create a chartdata object that contains only the x-axis labels (no entries or datasets)
-        LineData data = new LineData(xVals);
-        mChart.setData(data);
+        LineData data = mChart.getDataOriginal();
+        LineDataSet dataSetFirst=null;
+
+        //Add X-Axis value
+        if(data==null)
+        {
+            String[] xVals= new String[1];
+            xVals[0]="0";
+            data = new LineData(xVals);
+            dataSetFirst = createSet();
+
+            data.addDataSet(dataSetFirst);
+            mChart.setData(data);
+        }
+        else
+        {
+            data.getXVals().add(data.getXValCount(), "" + data.getXValCount()); //Add X-Axis Values
+            dataSetFirst = data.getDataSetByIndex(0);                                    //Get first data set
+        }
+
+        //Add y - Value
+        data.addEntry(new Entry((float) fValue, dataSetFirst.getEntryCount()), 0);
+
+        // let the chart know it's data has changed
+        mChart.notifyDataSetChanged();
+
+        // redraw the chart
         mChart.invalidate();
     }
 
-    private void addDataSet() {
-
-        mChart = (LineChart) mRootView.findViewById(R.id.chart1);
-        LineData data = mChart.getDataOriginal();
-        if(data != null) {
-            int count = (data.getDataSetCount() + 1);
-// create 10 y-vals
-            ArrayList<Entry> yVals = new ArrayList<Entry>();
-            for (int i = 0; i < data.getXValCount(); i++)
-                yVals.add(new Entry((float) (Math.random() * 50f) + 50f * count, i));
-            LineDataSet set = new LineDataSet(yVals, "DataSet " + count);
-            set.setLineWidth(2.5f);
-            set.setCircleSize(4.5f);
-            int color = mColors[count % mColors.length];
-            set.setColor(color);
-            set.setCircleColor(color);
-            set.setHighLightColor(color);
-            data.addDataSet(set);
-            mChart.notifyDataSetChanged();
-            mChart.invalidate();
-        }
-    }
 
     public View.OnClickListener onDebugClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            addEntry();
+            addEntry((float) (Math.random() * 50) + 50f);
         }};
 
 
@@ -151,76 +123,10 @@ public class UDPGraphingFragment extends SherlockFragment {
         btDebug=(Button) mRootView.findViewById(R.id.button1);
         btDebug.setOnClickListener(onDebugClick);
 
-
         initChart();    // Initialize the chart component
-
-        if(mData!=null)            // onCreateView is called more than once
-           mChart.setData(mData);  // set data
-
-/*
-        Thread debugThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while(true) {
-                    try {
-                        Thread.sleep(30000);
-                     //   addDataSet();
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                addEntry();
-                            }
-                        });
-
-                    } catch (Exception e) {
-                        e.getLocalizedMessage();
-                    }
-                }
-            }
-        });
-
-        debugThread.start();
-*/
-
-        addEmptyData();
 
         return mRootView;
     }
-
-
-    // Insert testdata to mChart
-    private void makeLineDataTest()
-    {
-        int count=360;
-
-        ArrayList<String> xVals = new ArrayList<String>();
-        ArrayList<Entry> yVals = new ArrayList<Entry>();
-        for (int i = 0; i < count; i++) {
-            xVals.add((i) + "");
-
-            float val = (float) Math.sin(2*Math.PI*i/count);
-            yVals.add(new Entry(val, i));
-
-        }
-
-        // create a dataset and give it a type
-        LineDataSet set1 = new LineDataSet(yVals, "DataSet 1");
-
-        ArrayList<LineDataSet> dataSets = new ArrayList<LineDataSet>();
-        dataSets.add(set1); // add the datasets
-
-        // create a data object with the datasets
-        mData = new LineData(xVals, dataSets);
-
-        if(mChart!=null) {
-            // set data
-            mChart.setData(mData);
-
-            // redraw
-            mChart.invalidate();
-        }
-    }
-
 
     public void onNewMessage(String updMessage)
     {
@@ -228,8 +134,8 @@ public class UDPGraphingFragment extends SherlockFragment {
 
         if (csvMessage[0].equalsIgnoreCase("$graph")==true)
         {
-            Log.d("UDPGraphingFragment", "equalsIgnoreCase(\"$graph\")==true");
-            makeLineDataTest();  // <-  Adds mData to the chart mChart.setData(mData);
+            if(mChart!=null)
+                addEntry((float) (Math.random() * 50) + 50f);
         }
     }
 
