@@ -27,6 +27,7 @@ public class UDPGraphingFragment extends SherlockFragment {
     private LineChart mChart=null;
     private View      mRootView=null;
     private LineData  mLineData=null;
+    private int       mSampleCounter=0;
 
     Button            btDebug;
 
@@ -66,9 +67,9 @@ public class UDPGraphingFragment extends SherlockFragment {
     }
 
     //Setup data set colours and style
-    private LineDataSet createSet()
+    private LineDataSet createSet(int iSetNumber)
     {
-        LineDataSet set = new LineDataSet(null, "DataSet 1");
+        LineDataSet set = new LineDataSet(null, "DataSet "+iSetNumber++);
         set.setLineWidth(2.5f);
         set.setCircleSize(4.5f);
         set.setColor(Color.rgb(240, 99, 99));
@@ -77,9 +78,9 @@ public class UDPGraphingFragment extends SherlockFragment {
         return set;
     }
 
-    private void addEntry(float fValue) {
+    private void addEntry(float[] fValues) {
 
-        LineDataSet dataSetFirst=null;
+      //  LineDataSet dataSet=null;
 
         //Add X-Axis value
         if(mLineData==null)
@@ -87,9 +88,7 @@ public class UDPGraphingFragment extends SherlockFragment {
             String[] xVals= new String[1];
             xVals[0]="0";
             mLineData = new LineData(xVals);
-            dataSetFirst = createSet();
 
-            mLineData.addDataSet(dataSetFirst);
             if(mChart!=null)
                 mChart.setData(mLineData);
         }
@@ -98,10 +97,20 @@ public class UDPGraphingFragment extends SherlockFragment {
             mLineData.getXVals().add(mLineData.getXValCount(), "" + mLineData.getXValCount()); //Add X-Axis Values
         }
 
-        dataSetFirst = mLineData.getDataSetByIndex(0);                                        //Get first data set
+        //Add values to the deifferent datasets
+        for(int i=0;i<fValues.length;i++)
+        {
+           if(mLineData.getDataSets()==null)
+               mLineData.addDataSet(createSet(i));
 
-        //Add y - Value
-        mLineData.addEntry(new Entry((float) fValue, dataSetFirst.getEntryCount()), 0);
+            if( mLineData.getDataSets().size()>i)
+               mLineData.addDataSet(createSet(i));
+
+            //Add y - Value
+            mLineData.addEntry(new Entry((float) fValues[i], mSampleCounter), i);
+        }
+
+        mSampleCounter++;
 
         if(mChart!=null) {
             // let the chart know it's data has changed
@@ -116,7 +125,7 @@ public class UDPGraphingFragment extends SherlockFragment {
     public View.OnClickListener onDebugClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            addEntry((float) (Math.random() * 50) + 50f);
+            //addEntry((float) (Math.random() * 50) + 50f);
         }};
 
 
@@ -142,7 +151,12 @@ public class UDPGraphingFragment extends SherlockFragment {
         {
             try
             {
-                addEntry(Float.parseFloat(csvMessage[1]));
+                float[] values= new float[csvMessage.length-1];
+
+                for(int i=1;i<csvMessage.length;i++)
+                    values[i-1]=Float.parseFloat(csvMessage[i]);
+
+                addEntry(values);
             }
             catch(Exception e)
             {
