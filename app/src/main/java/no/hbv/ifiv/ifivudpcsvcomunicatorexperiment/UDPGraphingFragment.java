@@ -15,6 +15,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
@@ -29,7 +30,7 @@ public class UDPGraphingFragment extends SherlockFragment {
     private LineData  mLineData=null;
     private int       mSampleCounter=0;
 
-    Button            btDebug;
+    int[] mColors = ColorTemplate.VORDIPLOM_COLORS;
 
 
     @Override
@@ -78,9 +79,11 @@ public class UDPGraphingFragment extends SherlockFragment {
         LineDataSet set = new LineDataSet(null, "DataSet "+setNr);
         set.setLineWidth(2.5f);
         set.setCircleSize(4.5f);
-        set.setColor(Color.rgb(240, 99, 99));
-        set.setCircleColor(Color.rgb(240, 99, 99));
-        set.setHighLightColor(Color.rgb(190, 190, 190));
+
+        int color = mColors[(setNr-1) % mColors.length];
+        set.setColor(color);
+        set.setCircleColor(color);
+        set.setHighLightColor(color);
         return set;
     }
 
