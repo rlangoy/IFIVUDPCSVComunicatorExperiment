@@ -2,6 +2,7 @@ package no.hbv.ifiv.ifivudpcsvcomunicatorexperiment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -139,7 +140,15 @@ public class UDPGraphingFragment extends SherlockFragment {
 
         if (csvMessage[0].equalsIgnoreCase("$graph")==true)
         {
-            addEntry((float) (Math.random() * 50) + 50f);
+            try
+            {
+                addEntry(Float.parseFloat(csvMessage[1]));
+            }
+            catch(Exception e)
+            {
+                Log.d("UDPGraphingFragment", e.getMessage());
+            }
+
         }
     }
 
