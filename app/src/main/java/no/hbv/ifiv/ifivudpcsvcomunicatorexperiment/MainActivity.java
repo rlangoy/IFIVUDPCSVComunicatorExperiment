@@ -8,32 +8,16 @@ import com.actionbarsherlock.view.MenuItem;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.Fragment;
+
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
-import com.actionbarsherlock.app.SherlockFragment;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
-
-
-class Fragment3 extends SherlockFragment {
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment1, container, false);
-        ((TextView) rootView.findViewById(R.id.label_Fragment1)).setText("Fragment3");
-        return rootView;
-    }
-}
 
 
 class IpInfo
@@ -100,9 +84,11 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
     String[] title;
     String[] subtitle;
     int[] icon;
-    UDPChatFragment udpChatFragment = null;              //Fragment nr 2 in List
-    SendCsvStringFragment sendCsvStringFragment =null;  //Fragemnt nr 1 in list
-    Fragment fragment3 = new Fragment3();
+    //ActionBar Fragments
+    UDPChatFragment udpChatFragment = null;
+    SendCsvStringFragment sendCsvStringFragment =null;
+    UDPGraphingFragment udpGraphingFragment = null;
+
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
 
@@ -152,7 +138,7 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
 
     private String[] getSetSubtitles()
     {
-        return new String[] { "Send UDP String" ,"UDP Rx/Tx" };
+        return new String[] { "Send UDP String" ,"UDP Rx/Tx","$GRAPH,values" };
     }
 
     @Override
@@ -169,20 +155,32 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
         mUDPCom.onAttach(this);
 
         sendCsvStringFragment = new SendCsvStringFragment(mUDPCom,mIpInfo);
-        udpChatFragment = new UDPChatFragment(mUDPCom);
+
+        //Create new fragemnt in a new thread to decrease app startuptime
+        (new Thread()
+            {   @Override
+                public void run() {  udpChatFragment = new UDPChatFragment(mUDPCom); }
+            }).start();
+
+
+        //Create new fragemnt in a new thread to decrease app startuptime
+        (new Thread()
+        {   @Override
+            public void run() {  udpGraphingFragment = new UDPGraphingFragment(); }
+        }).start();
+
+
         // Get the Title
         mTitle = mDrawerTitle = getTitle();
 
         // Generate titles
-//        String titleRxTxUDP= String.format("Rx/Tx UDP  %s:%d",mIpInfo.getIPAddress(),(mIpInfo.getIPPort()));
-//        title = new String[] { titleRxTxUDP , "Title Fragment 3" };
         title=getSetSubtitles();
 
         // Generate subtitles
-        subtitle = new String[] {"Send UDP message string","Send and recieve UDP","Subtitle Fragment 3" };
+        subtitle = new String[] {"Send UDP message string","Send and recieve UDP","Grap UDP Data" };
 
         // Generate icons
-        icon = new int[] {R.drawable.ic_action_udp_sendbw,  R.drawable.ic_chat_bw,  0 };
+        icon = new int[] {R.drawable.ic_action_udp_sendbw,  R.drawable.ic_chat_bw,  R.drawable.ic_action_graph };
 
         // Locate DrawerLayout in drawer_main.xml
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -192,8 +190,8 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
 
         // Set a custom shadow that overlays the main content when the drawer
         // opens
-        //mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
-        //        GravityCompat.START);
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
+                GravityCompat.START);
 
         // Pass string arrays to MenuListAdapter
         mMenuAdapter = new MenuListAdapter(MainActivity.this, title, subtitle,
@@ -290,8 +288,21 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
                     udpChatFragment.addNewMessage(new Message(message, false));
                 }
             });
-
         }
+
+        if(udpGraphingFragment!=null)
+        {
+            //udpChatFragment.addNewMessage updates the GUI and needs to run on the GUI thread
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    udpGraphingFragment.onNewMessage(message);
+                }
+            });
+        }
+
+
+
     }
 
     // ListView click listener in the navigation drawer
@@ -316,7 +327,7 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
                 ft.replace(R.id.content_frame, udpChatFragment);
                 break;
             case 2:
-                ft.replace(R.id.content_frame, fragment3);
+                ft.replace(R.id.content_frame, udpGraphingFragment);
                 break;
         }
         ft.commit();
