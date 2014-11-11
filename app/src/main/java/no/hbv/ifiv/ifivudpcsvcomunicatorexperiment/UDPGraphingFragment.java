@@ -110,7 +110,7 @@ public class UDPGraphingFragment extends SherlockFragment {
            if(mLineData.getDataSets()==null)
                mLineData.addDataSet(createSet());
 
-            if( mLineData.getDataSets().size()>i)
+            if( mLineData.getDataSets().size()<=i)
                mLineData.addDataSet(createSet());
 
             //Add y - Value
