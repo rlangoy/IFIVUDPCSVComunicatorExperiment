@@ -5,21 +5,24 @@ UDP CSV Comunicator Experiment
 The Application has different tools for working width UDP Packaged
 
 The Main Menu show the different utils in a ActionBar as show below
-###![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/MainActivity.PNG)
+###![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/master/doc/Images/MainActivity.PNG)
 
 #Working functionalities:
-![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/IPAddressDialog.PNG)
+![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/master/doc/Images/IPAddressDialog.PNG)
 ###Dialog to Configure IP Address and Portnumber
   
-![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/PhoneIpAddress.PNG)
+![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/master/doc/Images/PhoneIpAddress.PNG)
 ###Dialog to Show the Wifi IP-Address
   
-![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/SendCSVString.PNG)
+![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/master/doc/Images/SendCSVString.PNG)
 ###Sends the UDP message displayed in the EditText field when the user pushes the button "Send CVS String"
 
 
-![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/AlphaDev/doc/Images/RxTxUDP.PNG)
-###UDP Chat Program. Sends and Recieves UDP Messages
+![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/master/doc/Images/RxTxUDP.PNG)
+###UDP Chat Program. Sends and receive UDP Messages
+
+![alt tag](https://raw.githubusercontent.com/rlangoy/IFIVUDPCSVComunicatorExperiment/master/doc/Images/CSVGraph.PNG)
+###CSV Graph Program. Draws the received UDP Messages in a linegraph
 
 
 
@@ -47,11 +50,11 @@ Compilation / Build Instructions
     Origin: https://github.com/AdilSoomro/Android-Speech-Bubble
     By Adil Soomro (License se: https://github.com/AdilSoomro/Android-Speech-Bubble/blob/master/ReadMe.m ))
 
-###GraphView
-    Origin: https://github.com/jjoe64/GraphView
-    Copyright (C) 2013 Jonas Gehring
-    Licensed under the GNU Lesser General Public License (LGPL)
-    http://www.gnu.org/licenses/lgpl.html
+###MPAndroidChart
+    Origin: https://github.com/PhilJay/MPAndroidChart
+    Copyright (C) 2014 Philipp Jahoda
+    Licensed under the Apache License, Version 2.0
+    http://www.apache.org/licenses/LICENSE-2.0
 
 
 Developed By
