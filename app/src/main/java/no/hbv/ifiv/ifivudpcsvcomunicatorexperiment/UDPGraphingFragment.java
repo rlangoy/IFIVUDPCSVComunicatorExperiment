@@ -67,9 +67,15 @@ public class UDPGraphingFragment extends SherlockFragment {
     }
 
     //Setup data set colours and style
-    private LineDataSet createSet(int iSetNumber)
+    private LineDataSet createSet()
     {
-        LineDataSet set = new LineDataSet(null, "DataSet "+iSetNumber++);
+        int setNr;
+        if(mLineData.getDataSets()==null)
+            setNr=1;
+        else
+            setNr=mLineData.getDataSets().size()+1;
+
+        LineDataSet set = new LineDataSet(null, "DataSet "+setNr);
         set.setLineWidth(2.5f);
         set.setCircleSize(4.5f);
         set.setColor(Color.rgb(240, 99, 99));
@@ -79,8 +85,6 @@ public class UDPGraphingFragment extends SherlockFragment {
     }
 
     private void addEntry(float[] fValues) {
-
-      //  LineDataSet dataSet=null;
 
         //Add X-Axis value
         if(mLineData==null)
@@ -101,10 +105,10 @@ public class UDPGraphingFragment extends SherlockFragment {
         for(int i=0;i<fValues.length;i++)
         {
            if(mLineData.getDataSets()==null)
-               mLineData.addDataSet(createSet(i));
+               mLineData.addDataSet(createSet());
 
             if( mLineData.getDataSets().size()>i)
-               mLineData.addDataSet(createSet(i));
+               mLineData.addDataSet(createSet());
 
             //Add y - Value
             mLineData.addEntry(new Entry((float) fValues[i], mSampleCounter), i);
@@ -122,21 +126,11 @@ public class UDPGraphingFragment extends SherlockFragment {
     }
 
 
-    public View.OnClickListener onDebugClick = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            //addEntry((float) (Math.random() * 50) + 50f);
-        }};
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState)
     {
         mRootView = inflater.inflate(R.layout.fragment_udp_graphing, container, false);
-
-        btDebug = (Button) mRootView.findViewById(R.id.button1);
-        btDebug.setOnClickListener(onDebugClick);
 
         initChart();    // Initialize the chart component
 
