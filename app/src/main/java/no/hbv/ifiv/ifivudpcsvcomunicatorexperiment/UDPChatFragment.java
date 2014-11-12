@@ -168,11 +168,6 @@ public class UDPChatFragment extends SherlockFragment
 
     private ListView mListView=null;
 
-    public UDPChatFragment(UDPCom udpCom)
-    {
-        mUDPCom=udpCom;
-    }
-
     //Called if port/ip address has changed
     public void setUdpCom(UDPCom udpCom)
     {

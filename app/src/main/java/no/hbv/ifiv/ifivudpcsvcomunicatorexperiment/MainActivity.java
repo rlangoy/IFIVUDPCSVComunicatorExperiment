@@ -154,12 +154,18 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
         mUDPCom = new UDPCom(mIpInfo.getIPAddress(), mIpInfo.getIPPort());
         mUDPCom.onAttach(this);
 
-        sendCsvStringFragment = new SendCsvStringFragment(mUDPCom,mIpInfo);
+        sendCsvStringFragment = new SendCsvStringFragment();
+        sendCsvStringFragment.setUdpCom(mUDPCom);
+        sendCsvStringFragment.setIpInfo(mIpInfo);
+
 
         //Create new fragemnt in a new thread to decrease app startuptime
         (new Thread()
             {   @Override
-                public void run() {  udpChatFragment = new UDPChatFragment(mUDPCom); }
+                public void run() {
+                udpChatFragment = new UDPChatFragment();
+                udpChatFragment.setUdpCom(mUDPCom);
+            }
             }).start();
 
 
