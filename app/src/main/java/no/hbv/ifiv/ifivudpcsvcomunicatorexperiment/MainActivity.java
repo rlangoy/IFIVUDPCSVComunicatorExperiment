@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 
+
 class IpInfo
 {
     private SharedPreferences mSharedPreferences=null;
@@ -97,7 +98,27 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
     private static final String mPrefUDPMessag ="UDPMessagKey";
     private UDPCom mUDPCom=null;
 
+    public UDPCom getUDPCom()
+    {
+        IpInfo ipInfo=getIpInfo();
+
+        if (mUDPCom==null)
+        {
+            mUDPCom = new UDPCom(ipInfo.getIPAddress(), ipInfo.getIPPort());
+            mUDPCom.onAttach(this);
+        }
+        return mUDPCom;
+    }
+
     private IpInfo mIpInfo=null; //IP Address/Portunber
+
+    public IpInfo getIpInfo()
+    {
+        if (mIpInfo==null)
+            mIpInfo =  new IpInfo(getSharedPreferences(IpInfo.IP_PREFS, Context.MODE_PRIVATE));
+        return mIpInfo;
+    }
+
 
     //Loads the global variables from sharedpreferences ("init file")
     private void loadConfiguration()
@@ -142,6 +163,14 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
     }
 
     @Override
+    public void onDestroy()
+    {
+        mUDPCom.finalize();
+        super.onDestroy();
+    }
+
+
+        @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Get the view from drawer_main.xml

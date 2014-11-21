@@ -1,5 +1,6 @@
 package no.hbv.ifiv.ifivudpcsvcomunicatorexperiment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -26,6 +27,18 @@ public class SendCsvStringFragment extends SherlockFragment {
     private static final String mPrefUDPMessag ="UDPMessagKey";
 
     private UDPCom mUDPCom=null;
+
+    // New or Retaineed Fragment is about to be created..
+    // Get needed data from the Activity..
+    @Override
+    public void onAttach(Activity activity)
+    {
+        super.onAttach(activity);
+        mUDPCom=((MainActivity) activity).getUDPCom();
+        mIpInfo=((MainActivity) activity).getIpInfo();
+    }
+
+
 
     //Loads the global variables from sharedpreferences ("init file")
     private void loadConfiguration()
@@ -76,15 +89,19 @@ public class SendCsvStringFragment extends SherlockFragment {
     //Update the text fields
     public void UpdateView()
     {
-        TextView txtView = (TextView) mRootView.findViewById(R.id.text_id);
-        txtView.setText("IP Address: " + mIpInfo.getIPAddress()+":"+String.valueOf(mIpInfo.getIPPort()));
-        TextView textUDPMessage=(TextView) mRootView.findViewById(R.id.textUDPMessage);
-        textUDPMessage.setText(mStrUDPMessage);
+        if(mIpInfo!=null) {
+            TextView txtView = (TextView) mRootView.findViewById(R.id.text_id);
+            txtView.setText("IP Address: " + mIpInfo.getIPAddress() + ":" + String.valueOf(mIpInfo.getIPPort()));
+            TextView textUDPMessage = (TextView) mRootView.findViewById(R.id.textUDPMessage);
+            textUDPMessage.setText(mStrUDPMessage);
+        }
     }
 
-    @Override
+      @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        super.onCreateView(inflater,container,savedInstanceState);
 
         View rootView = inflater.inflate(R.layout.fragment_send_csv_string, container, false);
         mRootView=rootView;
@@ -104,7 +121,6 @@ public class SendCsvStringFragment extends SherlockFragment {
                 }
             }
         });
-
 
         return rootView;
     }

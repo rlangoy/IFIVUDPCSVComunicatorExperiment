@@ -130,7 +130,7 @@ public class UDPCom
     DatagramSocket      mSocket=null;
     InetAddress         mIPAddress=null;
     int                 mPort=0;
-    UDPRecieveMsg      mUDPRecieveMsg=null;
+    UDPRecieveMsg       mUDPRecieveMsg=null;
  /*
  *  implement this interface in order to receive event callbacks.
  **/
