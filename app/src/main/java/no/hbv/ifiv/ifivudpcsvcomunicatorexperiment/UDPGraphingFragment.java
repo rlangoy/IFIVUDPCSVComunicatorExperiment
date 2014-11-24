@@ -1,5 +1,6 @@
 package no.hbv.ifiv.ifivudpcsvcomunicatorexperiment;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,8 +35,18 @@ public class UDPGraphingFragment extends SherlockFragment {
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
+    }
+
+
+    // New or Retaineed Fragment is about to be created..
+    // Get needed data from the Activity..
+    @Override
+    public void onAttach(Activity activity)
+    {
+        super.onAttach(activity);
     }
 
     private void initChart()

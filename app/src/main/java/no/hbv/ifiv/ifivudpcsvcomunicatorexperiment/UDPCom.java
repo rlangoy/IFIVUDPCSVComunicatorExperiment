@@ -5,6 +5,8 @@ import android.util.Log;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 
 /**
  * Created by rune on 10.10.2014.
@@ -130,7 +132,10 @@ public class UDPCom
     DatagramSocket      mSocket=null;
     InetAddress         mIPAddress=null;
     int                 mPort=0;
-    UDPRecieveMsg      mUDPRecieveMsg=null;
+    UDPRecieveMsg       mUDPRecieveMsg=null;
+    Thread              mReceiverThread=null;
+    Thread              mSendThread=null;
+
  /*
  *  implement this interface in order to receive event callbacks.
  **/
@@ -163,7 +168,8 @@ public class UDPCom
     {
         try
         {   DatagramPacket p = new DatagramPacket(strUDPMessage.getBytes(), strUDPMessage.length(),mIPAddress,mPort);
-            new Thread(new UDPSendMsg(mSocket,p)).start();
+            mSendThread=new Thread(new UDPSendMsg(mSocket,p));
+            mSendThread.start();
         }
         catch (Exception e)
         {   String errorMsg;
@@ -180,11 +186,16 @@ public class UDPCom
     {
         mPort=port;
         try
-        {   mSocket = new DatagramSocket(mPort);
+        {   mSocket = new DatagramSocket(null);
+            SocketAddress socketAddr=new InetSocketAddress(mPort);
+            mSocket.setReuseAddress(true);
+            mSocket.bind(socketAddr);
+
             mIPAddress = InetAddress.getByName(strIPAddress);
             mUDPRecieveMsg=new UDPRecieveMsg(mSocket);
             //mUDPRecieveMsg.onAttach();
-            new Thread(mUDPRecieveMsg).start();
+            mReceiverThread=new Thread(mUDPRecieveMsg);
+            mReceiverThread.start();
         }
         catch (Exception e)
         {   String errorMsg;
@@ -199,9 +210,17 @@ public class UDPCom
     @Override
     protected void finalize()
     {
+        Log.d("UDPCom","finalize()----");
         try
         {
-            mSocket.close();
+            if(mReceiverThread!=null)
+                mReceiverThread.interrupt();
+            mReceiverThread=null;
+
+            if(mSocket!=null)
+                mSocket.close();
+            mSocket=null;
+
             super.finalize();
         }
         catch (Exception e)
