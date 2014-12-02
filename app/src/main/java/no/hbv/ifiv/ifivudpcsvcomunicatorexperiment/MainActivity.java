@@ -89,6 +89,8 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
     UDPChatFragment udpChatFragment = null;
     SendCsvStringFragment sendCsvStringFragment =null;
     UDPGraphingFragment udpGraphingFragment = null;
+    AccelrometerFragment accelrometerFragment = null;
+
 
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
@@ -159,7 +161,7 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
 
     private String[] getSetSubtitles()
     {
-        return new String[] { "Send UDP String" ,"UDP Rx/Tx","$GRAPH,values" };
+        return new String[] { "Send UDP String" ,"UDP Rx/Tx","$GRAPH,values","UDP aX,aY,aZ" };
     }
 
     @Override
@@ -205,6 +207,9 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
         }).start();
 
 
+        accelrometerFragment= new AccelrometerFragment();
+
+
         // Get the Title
         mTitle = mDrawerTitle = getTitle();
 
@@ -212,10 +217,10 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
         title=getSetSubtitles();
 
         // Generate subtitles
-        subtitle = new String[] {"Send UDP message string","Send and recieve UDP","Grap UDP Data" };
+        subtitle = new String[] {"Send UDP message string","Send and recieve UDP","Grap UDP Data", "Accelrometer UDP Data" };
 
         // Generate icons
-        icon = new int[] {R.drawable.ic_action_udp_sendbw,  R.drawable.ic_chat_bw,  R.drawable.ic_action_graph };
+        icon = new int[] {R.drawable.ic_action_udp_sendbw,  R.drawable.ic_chat_bw,  R.drawable.ic_action_graph, R.drawable.ic_action_graph };
 
         // Locate DrawerLayout in drawer_main.xml
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -363,6 +368,10 @@ public class MainActivity extends SherlockFragmentActivity implements IPAddressD
                 break;
             case 2:
                 ft.replace(R.id.content_frame, udpGraphingFragment);
+                break;
+
+            case 3:
+                ft.replace(R.id.content_frame, accelrometerFragment);
                 break;
         }
         ft.commit();
