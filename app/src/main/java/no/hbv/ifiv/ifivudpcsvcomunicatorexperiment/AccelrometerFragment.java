@@ -125,9 +125,9 @@ public class AccelrometerFragment extends SherlockFragment implements SensorEven
         float sensAccY = event.values[1];
         float sensAccZ = event.values[2];
 
-        mXVal.setText("x:" + sensAccX);
-        mYVal.setText("y:" + sensAccY);
-        mZVal.setText("z:" + sensAccZ);
+        mXVal.setText(String.format("X: %2.3f",sensAccX) );
+        mYVal.setText(String.format("Y: %2.3f",sensAccY) );
+        mZVal.setText(String.format("Z: %2.3f",sensAccZ) );
     }
 
     @Override
